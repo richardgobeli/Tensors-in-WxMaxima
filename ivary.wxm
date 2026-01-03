@@ -61,7 +61,7 @@ ishow('diff(foo,t([a])))$
 
 
 /* [wxMaxima: input   start ] */
-ishow(ev(%,diff))$
+ishow(ev(%,diff))-result:0$
 /* [wxMaxima: input   end   ] */
 
 
@@ -81,7 +81,7 @@ ishow('diff(foo([i]),t([a])))$
 
 
 /* [wxMaxima: input   start ] */
-ishow(ev(%,diff))$
+ishow(ev(%,diff))-result:0$
 /* [wxMaxima: input   end   ] */
 
 
