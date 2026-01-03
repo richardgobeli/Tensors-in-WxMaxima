@@ -6,6 +6,11 @@ Duplicate the Ivariation function in MacSyma
 
 
 /* [wxMaxima: input   start ] */
+("Duplicate the Ivariation function Demo in Macsyma")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 load(itensor);
 /* [wxMaxima: input   end   ] */
 
@@ -30,10 +35,10 @@ derivabbrev:false$
 /* [wxMaxima: input   end   ] */
 
 
-/* [wxMaxima: comment start ]
-The diff function does not understand symmetry so we can remove the following.
-Canform does use symmetry if needed.
-   [wxMaxima: comment end   ] */
+/* [wxMaxima: input   start ] */
+("The diff function does not understand symmetry so we can remove the following.
+Canform does use symmetry if needed.")$
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
@@ -53,6 +58,11 @@ remsym(g,0,2);
 /* [wxMaxima: section start ]
 Test
    [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Test 1")$
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
@@ -76,6 +86,11 @@ Test
 
 
 /* [wxMaxima: input   start ] */
+("Test 2")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow('diff(foo([i]),t([a])))$
 /* [wxMaxima: input   end   ] */
 
@@ -93,6 +108,11 @@ if %=0 then true else _error:_error +1;
 /* [wxMaxima: section start ]
 Test
    [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Test 3")$
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
@@ -123,7 +143,23 @@ Fixed using the components for the tensor t([],[i]).
 
 
 /* [wxMaxima: input   start ] */
+("Test 4")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("It does not know the transform from contravariant to covariant.
+Fixed using the components for the tensor t([],[i]).")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 components(t([],[i]),g([],[i,j])*t([j],[]));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("show the components")$
 /* [wxMaxima: input   end   ] */
 
 
@@ -173,6 +209,11 @@ Test
 
 
 /* [wxMaxima: input   start ] */
+("Test 5")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow('diff(baz*t([i])*foo([j]),t([a])))$
 /* [wxMaxima: input   end   ] */
 
@@ -195,6 +236,11 @@ if %=0 then true else _error:_error +1;
 /* [wxMaxima: section start ]
 Test
    [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Test 6")$
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
@@ -223,6 +269,11 @@ Check this using new contravariant index method
 
 
 /* [wxMaxima: input   start ] */
+("Check this using new contravariant index method using -j,-b")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow('diff(t([i,-j],[]),t([a,-b],[])))$
 /* [wxMaxima: input   end   ] */
 
@@ -238,6 +289,11 @@ ishow does not know how to handle a covariant index write as a minus contravaria
 
 
 /* [wxMaxima: input   start ] */
+("ishow does not understand - index in the contravariant slot")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow(t([-a],[-b]))$
 /* [wxMaxima: input   end   ] */
 
@@ -250,6 +306,11 @@ ishow(t([-a],[-b]))$
 /* [wxMaxima: section start ]
 Test
    [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Test 7")$
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
@@ -288,6 +349,11 @@ Test
 
 
 /* [wxMaxima: input   start ] */
+("Test 8")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow('diff( t([i])*foo([],[i,m])*bar([j,k]),t([a]) ))$
 /* [wxMaxima: input   end   ] */
 
@@ -323,6 +389,11 @@ Test
 
 
 /* [wxMaxima: input   start ] */
+("Test 9")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow( 'diff( t([i],[j,k])*foo([],[i,m])*bar([j,k],[]), t([a],[b,c]) ) )$
 /* [wxMaxima: input   end   ] */
 
@@ -355,6 +426,11 @@ if %=0 then true else _error:_error +1;
 /* [wxMaxima: section start ]
 Test
    [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Test 10")$
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
@@ -394,6 +470,11 @@ Test
 
 
 /* [wxMaxima: input   start ] */
+("Test 11")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow('diff(g([],[i,m])*t([m],[p,q])*bar([j,k],[]), t([a],[b,c])))$
 /* [wxMaxima: input   end   ] */
 
@@ -430,6 +511,17 @@ This should be all permutations of a and b.
 
 
 /* [wxMaxima: input   start ] */
+("Test 12")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Test diff_canonicalize is true in Macsyma
+This should be all permutations of a and b")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 decsym(s,2,0,[sym(all)],[])$
 decsym(s,0,2,[],[sym(all)])$
 dispsym(s,2,0);
@@ -443,7 +535,7 @@ ishow('diff(s([i,j],[]),s([a,b],[])))$
 
 
 /* [wxMaxima: input   start ] */
-ishow(ev(%,diff))$
+ans:ishow(ev(%,diff))$
 /* [wxMaxima: input   end   ] */
 
 
@@ -453,7 +545,12 @@ Not zero
 
 
 /* [wxMaxima: input   start ] */
-ishow(rename(%- (kdelta([i],[a])*kdelta([j],[b])
+("Does not work")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(ans- (kdelta([i],[a])*kdelta([j],[b])
 +kdelta([i],[b])*kdelta([j],[a]))/2  ))$
 /* [wxMaxima: input   end   ] */
 
@@ -468,6 +565,11 @@ Fix for above
 diff_canonicalize is true in MacSyma
 Needs all permutations of derivative tensor
    [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Fix for permutations")$
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
@@ -495,6 +597,11 @@ if %=0 then true else _error:_error +1;
 Test diff_canonicalize is true in MacSyma
 This is all permutations and a and b
    [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Test 13 permutations again")$
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
@@ -531,6 +638,11 @@ Needs all permutations of derivative tensor
 
 
 /* [wxMaxima: input   start ] */
+("Fix")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow(('diff(s([],[i,j]),s([],[a,b]))+'diff(s([],[i,j]),s([],[b,a])))/2)$
 /* [wxMaxima: input   end   ] */
 
@@ -561,6 +673,11 @@ remsym(s,0,2);
 Test diff_canonicalize is true in MacSyma
 Needs to be all permutations
    [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Test 14")$
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
@@ -645,6 +762,11 @@ Needs to be all permutations
 
 
 /* [wxMaxima: input   start ] */
+("Test 15")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow('diff(s3([],[i,j,k]),s3([],[a,b,c])))$
 /* [wxMaxima: input   end   ] */
 
@@ -724,6 +846,11 @@ Needs to be all permutations
 
 
 /* [wxMaxima: input   start ] */
+("Test 16")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 decsym(an,2,0,[anti(all)],[])$
 decsym(an,0,2,[],[anti(all)])$
 dispsym(an,2,0);
@@ -793,6 +920,11 @@ Needs to be all permutations
 
 
 /* [wxMaxima: input   start ] */
+("Test 17")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow('diff(an([],[i,j]),an([],[a,b])))$
 /* [wxMaxima: input   end   ] */
 
@@ -857,6 +989,11 @@ remsym(an,0,2);
 Test diff_canonicalize is true in MacSyma
 Needs to be all permutations
    [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Test 18")$
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
@@ -936,6 +1073,11 @@ Needs to be all permutations
 
 
 /* [wxMaxima: input   start ] */
+("Test 19")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow(diff(an3([],[i,j,k]),an3([],[a,b,c])))$
 /* [wxMaxima: input   end   ] */
 
@@ -1010,6 +1152,11 @@ Needs to be all permutations
 
 
 /* [wxMaxima: input   start ] */
+("Test 20")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 decsym(cyc3,3,0,[cyc(all)],[]);
 dispsym(cyc3,3,0);
 /* [wxMaxima: input   end   ] */
@@ -1078,11 +1225,16 @@ Take variations of metric w.r.t the metric
    [wxMaxima: section end   ] */
 
 
-/* [wxMaxima: section start ]
+/* [wxMaxima: subsect start ]
 Test
 diff_canonicalize is true in MacSyma
 Needs to be all permutations
-   [wxMaxima: section end   ] */
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Test 21  variations of metric w.r.t the metric")$
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
@@ -1109,6 +1261,11 @@ if %=0 then true else _error:_error +1;
 Take variations of the determinant of metric w.r.t the metric
 Test
    [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Test 22 variations of determinant of metric w.r.t the metric")$
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
@@ -1152,6 +1309,11 @@ Test
 
 
 /* [wxMaxima: input   start ] */
+("Test 23")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow('diff(determinant(g),g([],[a,b])))$
 /* [wxMaxima: input   end   ] */
 
@@ -1178,6 +1340,11 @@ Test
 
 
 /* [wxMaxima: input   start ] */
+("Test 24 Variations of frame fields")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow('diff(ifr([b],[j]),ifr([a],[i])))$
 /* [wxMaxima: input   end   ] */
 
@@ -1201,6 +1368,11 @@ if %=0 then true else _error:_error +1;
 Test
 need to define the variation
    [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Test 25  Need to define variation because of invert tensor")$
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
@@ -1245,6 +1417,11 @@ Test
 
 
 /* [wxMaxima: input   start ] */
+("Test 26")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow('diff(determinant(ifr),ifr([a],[i])))$
 /* [wxMaxima: input   end   ] */
 
@@ -1272,6 +1449,11 @@ if %=0 then true else _error:_error +1;
 /* [wxMaxima: section start ]
 Test
    [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Test 27")$
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
@@ -1311,6 +1493,11 @@ Test
 
 
 /* [wxMaxima: input   start ] */
+("Test 28 Variations of expressions with derivatives")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow('diff(t([i],[]),t([a],[],p)))$
 /* [wxMaxima: input   end   ] */
 
@@ -1331,6 +1518,11 @@ Test
 
 
 /* [wxMaxima: input   start ] */
+("Test 29")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow('diff(t([i],[],q),t([a],[])))$
 /* [wxMaxima: input   end   ] */
 
@@ -1348,6 +1540,11 @@ if %=0 then true else _error:_error +1;
 /* [wxMaxima: section start ]
 Test
    [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Test 30")$
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
@@ -1377,6 +1574,11 @@ Needs to be all permutations
 
 
 /* [wxMaxima: input   start ] */
+("Test 31 Permutations again")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow(('diff(t([i],[],r,s),t([a],[],p,q))+'diff(t([i],[],r,s),t([a],[],q,p)))/2)$
 /* [wxMaxima: input   end   ] */
 
@@ -1400,6 +1602,11 @@ if %=0 then true else _error:_error +1;
 Test diff_canonicalize is false
 No permutations if false
    [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Test 32")$
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
@@ -1429,6 +1636,11 @@ No permutations if false
 
 
 /* [wxMaxima: input   start ] */
+("Test 33")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow('diff(t([i],[],q)*a([],[i]),t([a],[])))$
 /* [wxMaxima: input   end   ] */
 
@@ -1448,6 +1660,12 @@ Test
 Variation_deriv_degree:1 Macsyma has no help telling what this flag does.
 The variation_deriv_degree:1 is the Euler-Lagrange Equation.
    [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Test 34 Macsyma flag variation_deriv_degree:1 defines use Euler-Lagrange Equation
+First term is the same but second term is minus coordinate derivative of tensor and the coordinate")$
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
@@ -1479,6 +1697,11 @@ First define the result.
 
 
 /* [wxMaxima: input   start ] */
+("Test 35 Euler-Lagrange")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 result:ishow(canform(rename(contract(-t([%1],[],%2,%3)*g([],[%1,a])*kdelta([%4],[%2])*g([],[%4,%3])
                         -t([%1],[],%2)*g([],[%1,a],%3)*kdelta([%4],[%3])*g([],[%4,%2])
                         -kdelta([%1],[a])*t([],[%1],%2)*g([],[%2,%4],%3)*kdelta([%4],[%3])
@@ -1490,6 +1713,11 @@ result:ishow(canform(rename(contract(-t([%1],[],%2,%3)*g([],[%1,a])*kdelta([%4],
 /* [wxMaxima: subsect start ]
 Here is the Euler-Lagrange equation
    [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Euler-Lagramge equation")$
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
@@ -1505,6 +1733,11 @@ Find out the derivative of g(^i%1)*t(_%1,p) to g(^i%1)*kdelta(_%1^a)*kdelta(_p^m
 
 
 /* [wxMaxima: input   start ] */
+("Define a contravariant derivative in both terms")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 components(t([],[i],p),g([],[i,j])*t([j],[],p));
 /* [wxMaxima: input   end   ] */
 
@@ -1515,7 +1748,7 @@ ishow(rename(t([],[i],p)))$
 
 
 /* [wxMaxima: input   start ] */
-D:ishow(contract(rename(diff(%,t([a],[],m)))))$  /* use for the derivative rule below */
+ishow(contract(rename(diff(%,t([a],[],m)))))$  /* use for the derivative rule below */
 /* [wxMaxima: input   end   ] */
 
 
@@ -1560,7 +1793,7 @@ ishow(diff(t([],[i],p),t([a],[],m)))$
 
 
 /* [wxMaxima: subsect start ]
-Now do the Euler-Lagrange Equation. The first diff is zero.
+Now do the Euler-Lagrange Equation. The first diff term is zero.
    [wxMaxima: subsect end   ] */
 
 
@@ -1596,7 +1829,17 @@ Test
 
 
 /* [wxMaxima: input   start ] */
+("Test 36  This takes some fudging to get the answer")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow('idiff(t([j],[i]),x([],[k])))$  /* the tensor needs to be replaced with the k as coordinate */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Replace the x^k with just k and use idiff")$
 /* [wxMaxima: input   end   ] */
 
 
@@ -1621,7 +1864,17 @@ Test
 
 
 /* [wxMaxima: input   start ] */
+("Test 37")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow('diff(t([j],[i]),x([k])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Use g so it can take the derivative of contravariant tensor")$
 /* [wxMaxima: input   end   ] */
 
 
@@ -1631,12 +1884,17 @@ components(t([j],[i]),g([],[i,m])*t([m,j],[]));     /* it needs components defin
 
 
 /* [wxMaxima: input   start ] */
-ishow(rename(idiff(t([j],[i]),k)))$
+dd:ishow(rename(idiff(t([j],[i]),k)))$
 /* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
-ishow(flushd(%,g))$                                          /* flush the extra term g that has a derivative */
+("flush out the extra derivative from answer")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(flushd(dd,g))$                                          /* flush the extra term g that has a derivative */
 /* [wxMaxima: input   end   ] */
 
 
@@ -1659,6 +1917,11 @@ remcomps(t);
 Ivariation Examples from Macsyma
 Test
    [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Test 38")$
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
@@ -1687,6 +1950,11 @@ Test
 
 
 /* [wxMaxima: input   start ] */
+("Test 39")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow('diff(baz*tt([i],[])*ss([j],[]),tt([a],[])))$
 /* [wxMaxima: input   end   ] */
 
@@ -1709,6 +1977,11 @@ if %=0 then true else _error:_error +1;
 /* [wxMaxima: section start ]
 Test
    [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Test 40")$
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
@@ -1737,6 +2010,11 @@ Test
 
 
 /* [wxMaxima: input   start ] */
+("Test 41")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow('diff(tt([i],[])*ss([j],[i]),tt([a])))$
 /* [wxMaxima: input   end   ] */
 
@@ -1761,9 +2039,19 @@ Done
    [wxMaxima: section end   ] */
 
 
+/* [wxMaxima: input   start ] */
+("Done")$
+/* [wxMaxima: input   end   ] */
+
+
 /* [wxMaxima: subsect start ]
 Test symmetry components using kdels
    [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Test symmetry components using kdels")$
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
@@ -1782,6 +2070,11 @@ dispsym(g,0,2);
 /* [wxMaxima: subsect start ]
 Load components
    [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Load components")$
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
