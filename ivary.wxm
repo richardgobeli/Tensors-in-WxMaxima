@@ -1,0 +1,1855 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 26.01.0-DevelopmentSnapshot ] */
+/* [wxMaxima: title   start ]
+Duplicate the Ivariation function in MacSyma
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load(itensor);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+get('itensor,'version);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+imetric(g);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+_error:0$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+derivabbrev:false$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+The diff function does not understand symmetry so we can remove the following.
+Canform does use symmetry if needed.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+decsym(g,2,0,[sym(all)],[])$
+decsym(g,0,2,[],[sym(all)])$
+dispsym(g,2,0);
+dispsym(g,0,2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+remsym(g,2,0);         
+remsym(g,0,2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(foo,t([a])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(foo([i]),t([a])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(t([i]),t([a])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+%-kdelta([i],[a]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+It does not know the transform from contravariant to covariant.
+Fixed using the components for the tensor t([],[i]).
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+components(t([],[i]),g([],[i,j])*t([j],[]));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('t([],[i])=t([],[i]))$   /*show the components */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff('t([],[i]),t([a],[])))$  /* test */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(t([],[i]),t([a],[])))$  /*  stop diff to show the transform */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$  /* result */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+remcomps(t);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(contract(%th(2)))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+%-g([],[i,a]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(baz*t([i])*foo([j]),t([a])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+%-baz*kdelta([i],[a])*foo([j],[]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(t([i],[j]),t([a],[b])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+%-kdelta([b],[j])*kdelta([i],[a]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Check this using new contravariant index method
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(t([i,-j],[]),t([a,-b],[])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+ishow does not know how to handle a covariant index write as a minus contravariant index.
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(t([-a],[-b]))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+%;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff( baz*t([i])*foo([],[i])*bar([j]), t([a]) ))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(%))$ /* rename gives new names to summed indices */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(contract(%))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rename(%th(3)-baz*foo([],[i])*kdelta([i],[a])*bar([j]));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff( t([i])*foo([],[i,m])*bar([j,k]),t([a]) ))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(%))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(contract(%))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rename(%th(2)-foo([],[i,m])*kdelta([i],[a])*bar([j,k],[]));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow( 'diff( t([i],[j,k])*foo([],[i,m])*bar([j,k],[]), t([a],[b,c]) ) )$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(%))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(contract(%))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rename(%th(2)-foo([],[i,m])*kdelta([b],[j])*kdelta([c],[k])*kdelta([i],[a])*bar([j,k]));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(t([i],[j,k])*g([],[i,m])*t([m],[p,q])*bar([j,k]), t([a],[b,c])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(%))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(canform(contract(%)))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rename((%th(2)-(g([],[i,m])*kdelta([b],[j])*kdelta([c],[k])*kdelta([i],[a])*bar([j,k],[])*t([m],[p,q]) +
+g([],[i,m])*kdelta([b],[p])*kdelta([c],[q])*t([i],[j,k])*bar([j,k])*kdelta([m],[a]) )));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(g([],[i,m])*t([m],[p,q])*bar([j,k],[]), t([a],[b,c])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(%))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(contract(canform(%th(1))))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rename(%th(2)-g([],[i,m])*kdelta([m],[a])*kdelta([b],[p])*kdelta([c],[q])*bar([j,k],[]));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is true in MacSyma
+This should be all permutations of a and b.
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+decsym(s,2,0,[sym(all)],[])$
+decsym(s,0,2,[],[sym(all)])$
+dispsym(s,2,0);
+dispsym(s,0,2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(s([i,j],[]),s([a,b],[])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Not zero
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(%- (kdelta([i],[a])*kdelta([j],[b])
++kdelta([i],[b])*kdelta([j],[a]))/2  ))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(expand(%))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Fix for above
+diff_canonicalize is true in MacSyma
+Needs all permutations of derivative tensor
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(('diff(s([i,j],[]),s([a,b],[]))+'diff(s([i,j],[]),s([b,a],[])))/2)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(%- (kdelta([i],[a])*kdelta([j],[b])
++kdelta([i],[b])*kdelta([j],[a]))/2  ))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is true in MacSyma
+This is all permutations and a and b
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(s([],[i,j]),s([],[a,b])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Not zero
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(%- (kdelta([a],[i])*kdelta([b],[j])
++kdelta([b],[i])*kdelta([a],[j]))/2  ))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(expand(%))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Fix for above
+diff_canonicalize is true in MacSyma
+Needs all permutations of derivative tensor
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(('diff(s([],[i,j]),s([],[a,b]))+'diff(s([],[i,j]),s([],[b,a])))/2)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(%- (kdelta([a],[i])*kdelta([b],[j])
++kdelta([b],[i])*kdelta([a],[j]))/2  ))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+remsym(s,2,0);
+remsym(s,0,2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is true in MacSyma
+Needs to be all permutations
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+decsym(s3,3,0,[sym(all)],[])$
+decsym(s3,0,3,[],[sym(all)])$
+dispsym(s3,3,0);
+dispsym(s3,0,3);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(s3([i,j,k],[]),s3([a,b,c],[])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Not zero
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(%- (kdelta([i],[a])*kdelta([j],[b])*kdelta([k],[c])
++kdelta([i],[b])*kdelta([j],[c])*kdelta([k],[a])
++kdelta([i],[c])*kdelta([j],[a])*kdelta([k],[b])            
++kdelta([i],[c])*kdelta([j],[b])*kdelta([k],[a])
++kdelta([i],[b])*kdelta([j],[a])*kdelta([k],[c])
++kdelta([i],[a])*kdelta([j],[c])*kdelta([k],[b]))/6 ))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(expand(%))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Fix for above
+diff_canonicalize is true in MacSyma
+Needs all permutations of derivative tensor
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(('diff(s3([i,j,k],[]),s3([a,b,c],[]))
++'diff(s3([i,j,k],[]),s3([b,c,a],[]))
++'diff(s3([i,j,k],[]),s3([c,a,b],[]))
++'diff(s3([i,j,k],[]),s3([c,b,a],[]))
++'diff(s3([i,j,k],[]),s3([b,a,c],[]))
++'diff(s3([i,j,k],[]),s3([a,c,b],[]))   )/6)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(%- (kdelta([i],[a])*kdelta([j],[b])*kdelta([k],[c])
++kdelta([i],[b])*kdelta([j],[c])*kdelta([k],[a])
++kdelta([i],[c])*kdelta([j],[a])*kdelta([k],[b])            
++kdelta([i],[c])*kdelta([j],[b])*kdelta([k],[a])
++kdelta([i],[b])*kdelta([j],[a])*kdelta([k],[c])
++kdelta([i],[a])*kdelta([j],[c])*kdelta([k],[b]))/6 ))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is true in MacSyma
+Needs to be all permutations
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(s3([],[i,j,k]),s3([],[a,b,c])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Not zero
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(%- (kdelta([a],[i])*kdelta([b],[j])*kdelta([c],[k])
++kdelta([a],[j])*kdelta([b],[k])*kdelta([c],[i])
++kdelta([a],[k])*kdelta([b],[i])*kdelta([c],[j])
++kdelta([a],[k])*kdelta([b],[j])*kdelta([c],[i])
++kdelta([a],[j])*kdelta([b],[i])*kdelta([c],[k])
++kdelta([a],[i])*kdelta([b],[k])*kdelta([c],[j]))/6 ))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(expand(%))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Fix for above
+diff_canonicalize is true in MacSyma
+Needs all permutations of derivative tensor
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(('diff(s3([],[i,j,k]),s3([],[a,b,c]))
++'diff(s3([],[i,j,k]),s3([],[b,c,a]))
++'diff(s3([],[i,j,k]),s3([],[c,a,b]))
++'diff(s3([],[i,j,k]),s3([],[c,b,a]))
++'diff(s3([],[i,j,k]),s3([],[b,a,c]))
++'diff(s3([],[i,j,k]),s3([],[a,c,b]))   )/6)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(%- (kdelta([a],[i])*kdelta([b],[j])*kdelta([c],[k])
++kdelta([a],[j])*kdelta([b],[k])*kdelta([c],[i])
++kdelta([a],[k])*kdelta([b],[i])*kdelta([c],[j])
++kdelta([a],[k])*kdelta([b],[j])*kdelta([c],[i])
++kdelta([a],[j])*kdelta([b],[i])*kdelta([c],[k])
++kdelta([a],[i])*kdelta([b],[k])*kdelta([c],[j]))/6 ))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+remsym(s3,3,0);
+remsym(s3,0,3);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is true in MacSyma
+Needs to be all permutations
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+decsym(an,2,0,[anti(all)],[])$
+decsym(an,0,2,[],[anti(all)])$
+dispsym(an,2,0);
+dispsym(an,0,2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(an([i,j]),an([a,b])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Not zero
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(%-  (kdelta([i],[a])*kdelta([j],[b])
+-kdelta([i],[b])*kdelta([j],[a]))/2  ))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(expand(%))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Fix for above
+diff_canonicalize is true in MacSyma
+Needs all permutations of derivative tensor
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(('diff(an([i,j]),an([a,b]))
+-'diff(an([i,j]),an([b,a]))   )/2)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(%-  (kdelta([i],[a])*kdelta([j],[b])
+-kdelta([i],[b])*kdelta([j],[a]))/2  ))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is true in MacSyma
+Needs to be all permutations
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(an([],[i,j]),an([],[a,b])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Not zero
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(%-  (kdelta([a],[i])*kdelta([b],[j])
+-kdelta([a],[j])*kdelta([b],[i]))/2  ))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(expand(%))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Fix for above
+diff_canonicalize is true in MacSyma
+Needs all permutations of derivative tensor
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(('diff(an([],[i,j]),an([],[a,b]))
+-'diff(an([],[i,j]),an([],[b,a]))    )/2)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(%-  (kdelta([a],[i])*kdelta([b],[j])
+-kdelta([a],[j])*kdelta([b],[i]))/2  ))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+remsym(an,2,0);
+remsym(an,0,2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is true in MacSyma
+Needs to be all permutations
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+decsym(an3,3,0,[anti(all)],[])$
+decsym(an3,0,3,[],[anti(all)])$
+dispsym(an3,3,0);
+dispsym(an3,0,3);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(an3([i,j,k],[]),an3([a,b,c],[])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Not zero
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(%- (kdelta([i],[a])*kdelta([j],[b])*kdelta([k],[c])
++kdelta([i],[b])*kdelta([j],[c])*kdelta([k],[a])
++kdelta([i],[c])*kdelta([j],[a])*kdelta([k],[b])
+-kdelta([i],[c])*kdelta([j],[b])*kdelta([k],[a])
+-kdelta([i],[b])*kdelta([j],[a])*kdelta([k],[c])
+-kdelta([i],[a])*kdelta([j],[c])*kdelta([k],[b])      )/6  ))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(expand(%))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Fix for above
+diff_canonicalize is true in MacSyma
+Needs all permutations of derivative tensor
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow((diff(an3([i,j,k],[]),an3([a,b,c],[]))
++diff(an3([i,j,k],[]),an3([b,c,a],[]))
++diff(an3([i,j,k],[]),an3([c,a,b],[]))
+-diff(an3([i,j,k],[]),an3([c,b,a],[]))
+-diff(an3([i,j,k],[]),an3([b,a,c],[]))
+-diff(an3([i,j,k],[]),an3([a,c,b],[]))    )/6)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(%- (kdelta([i],[a])*kdelta([j],[b])*kdelta([k],[c])
++kdelta([i],[b])*kdelta([j],[c])*kdelta([k],[a])
++kdelta([i],[c])*kdelta([j],[a])*kdelta([k],[b])
+-kdelta([i],[c])*kdelta([j],[b])*kdelta([k],[a])
+-kdelta([i],[b])*kdelta([j],[a])*kdelta([k],[c])
+-kdelta([i],[a])*kdelta([j],[c])*kdelta([k],[b])      )/6  ))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is true in MacSyma
+Needs to be all permutations
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(diff(an3([],[i,j,k]),an3([],[a,b,c])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Not zero
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(%- (kdelta([a],[i])*kdelta([b],[j])*kdelta([c],[k])
++kdelta([a],[j])*kdelta([b],[k])*kdelta([c],[i])
++kdelta([a],[k])*kdelta([b],[i])*kdelta([c],[j])
+-kdelta([a],[k])*kdelta([b],[j])*kdelta([c],[i])
+-kdelta([a],[j])*kdelta([b],[i])*kdelta([c],[k])
+-kdelta([a],[i])*kdelta([b],[k])*kdelta([c],[j])      )/6  ))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(expand(%))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Fix for above
+diff_canonicalize is true in MacSyma
+Needs all permutations of derivative tensor
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(('diff(an3([],[i,j,k]),an3([],[a,b,c]))
++'diff(an3([],[i,j,k]),an3([],[b,c,a]))
++'diff(an3([],[i,j,k]),an3([],[c,a,b]))
+-'diff(an3([],[i,j,k]),an3([],[c,b,a]))
+-'diff(an3([],[i,j,k]),an3([],[b,a,c]))
+-'diff(an3([],[i,j,k]),an3([],[a,c,b]))     )/6    )$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(%- (kdelta([a],[i])*kdelta([b],[j])*kdelta([c],[k])
++kdelta([a],[j])*kdelta([b],[k])*kdelta([c],[i])
++kdelta([a],[k])*kdelta([b],[i])*kdelta([c],[j])
+-kdelta([a],[k])*kdelta([b],[j])*kdelta([c],[i])
+-kdelta([a],[j])*kdelta([b],[i])*kdelta([c],[k])
+-kdelta([a],[i])*kdelta([b],[k])*kdelta([c],[j])      )/6  ))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+remsym(an3,3,0);
+remsym(an3,0,3);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is true in MacSyma
+Needs to be all permutations
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+decsym(cyc3,3,0,[cyc(all)],[]);
+dispsym(cyc3,3,0);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Fix for above
+diff_canonicalize is true in MacSyma
+Needs all permutations of derivative tensor
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(('diff(cyc3([i,j,k],[]),cyc3([a,b,c],[]))
+        +'diff(cyc3([i,j,k],[]),cyc3([b,c,a],[]))
+        +'diff(cyc3([i,j,k],[]),cyc3([c,a,b],[])))/3)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+%- (kdelta([i],[a])*kdelta([j],[b])*kdelta([k],[c])+kdelta([i],[c])*kdelta([j],[a])*kdelta([k],[b])+kdelta([i],[b])*kdelta([j],[c])*kdelta([k],[a]))/3;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Fix for above
+diff_canonicalize is true in MacSyma
+Needs all permutations of derivative tensor
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(('diff(cyc3([],[i,j,k]),cyc3([],[a,b,c]))
+        +'diff(cyc3([],[i,j,k]),cyc3([],[b,c,a]))
+        +'diff(cyc3([],[i,j,k]),cyc3([],[c,a,b])))/3)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+%-(kdelta([a],[i])*kdelta([b],[j])*kdelta([c],[k])+kdelta([a],[k])*kdelta([b],[i])*kdelta([c],[j])+kdelta([a],[j])*kdelta([b],[k])*kdelta([c],[i]))/3;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+remsym(cyc3,3,0);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Take variations of metric w.r.t the metric
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+diff_canonicalize is true in MacSyma
+Needs to be all permutations
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(('diff(g([],[i,j]),g([a,b],[]))+'diff(g([],[i,j]),g([b,a],[])))/2)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ratsimp(%+ (+(g([],[i,a])*g([],[j,b]))+g([],[i,b])*g([],[j,a]))/2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Take variations of the determinant of metric w.r.t the metric
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(sqrt(abs(determinant(g))),g([a,b])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rootscontract(sqrt(abs(determinant(g)))); /* get rid of the abs function */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rootscontract(diff(%,g([a,b]))))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+subst([determinant(g)^2=_xx],%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(subst([_xx=determinant(g)^2],%))$ /* result */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+%-(g([],[a,b])*sqrt(abs(determinant(g))))/2;  /* check */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(determinant(g),g([],[a,b])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ratsimp(%+(determinant(g)*g([a,b],[])));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Variations of frame fields
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(ifr([b],[j]),ifr([a],[i])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+%-kdelta([b],[a])*kdelta([i],[j]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+need to define the variation
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+depends(ifri,ifr);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(ifri([j],[b]),ifr([a],[i])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+matchdeclare([_a,_b,_i,_j],atom);
+tellsimpafter('diff(ifri([_j],[_b]),ifr([_a],[_i])),-ifri([_i],[_b])*ifri([_j],[_a]));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(ifri([j],[b]),ifr([a],[i])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$ /* result */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+%--(ifri([i],[b])*ifri([j],[a]));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(determinant(ifr),ifr([a],[i])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+tellsimpafter('diff(determinant(ifr),ifr([a],[i])),ifri([i],[a])*determinant(ifr));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(diff(determinant(ifr),ifr([a],[i])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+%-ifri([i],[a])*determinant(ifr);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(determinant(ifri),ifr([a],[i])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+tellsimpafter('diff(determinant(ifri),ifr([a],[i])),-ifri([i],[a])*determinant(ifri));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+disprule(derivativerule3);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(diff(determinant(ifri),ifr([a],[i])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+%--(ifri([i],[a])*determinant(ifri));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Variations of expressions with derivatives
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(t([i],[]),t([a],[],p)))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(t([i],[],q),t([a],[])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(t([i],[],q),t([a],[],p)))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+%-kdelta([i],[a])*kdelta([q],[p]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is true
+Needs to be all permutations
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(('diff(t([i],[],r,s),t([a],[],p,q))+'diff(t([i],[],r,s),t([a],[],q,p)))/2)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+%-(kdelta([i],[a])*kdelta([r],[p])*kdelta([s],[q])+kdelta([i],[a])*kdelta([r],[q])*kdelta([s],[p]))/2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is false
+No permutations if false
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(('diff(t([i],[],r,s),t([a],[],p,q))+0*'diff(t([i],[],r,s),t([a],[],q,p)))/1)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+%-kdelta([i],[a])*kdelta([r],[p])*kdelta([s],[q]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is false
+No permutations if false
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(t([i],[],q)*a([],[i]),t([a],[])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(%,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+Variation_deriv_degree:1 Macsyma has no help telling what this flag does.
+The variation_deriv_degree:1 is the Euler-Lagrange Equation.
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(t([i],[],q)*u([],[i]),t([a],[]))-'idiff('diff(t([i],[],q)*u([],[i]),t([a],[],c)),c))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(ev(%,diff,idiff)))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+%+kdelta([%1],[a])*u([],[%1],%2)*kdelta([q],[%2]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+Variation_deriv_degree:1 Macsyma has no help telling what this flag does.
+The variation_deriv_degree:1 is the Euler-Lagrange Equation.
+First define the result.
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+result:ishow(canform(rename(contract(-t([%1],[],%2,%3)*g([],[%1,a])*kdelta([%4],[%2])*g([],[%4,%3])
+                        -t([%1],[],%2)*g([],[%1,a],%3)*kdelta([%4],[%3])*g([],[%4,%2])
+                        -kdelta([%1],[a])*t([],[%1],%2)*g([],[%2,%4],%3)*kdelta([%4],[%3])
+                       -kdelta([%1],[a])*t([],[%1],%2,%3)*g([],[%3,%4])*kdelta([%4],[%2])
+                       -t([%1],[],%2)*g([],[%1,a])*kdelta([%3],[%4])*g([],[%3,%2],%4)))))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Here is the Euler-Lagrange equation
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(t([i],[],q)*t([],[i],p)*g([],[p,q]),t([a],[]))-1*idiff('diff(t([i],[],q)*t([],[i],p)*g([],[p,q]),t([a],[],x)),x))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Load components for t(_p^i) so it can do the derivative
+Save it as a derivative rule
+Find out the derivative of g(^i%1)*t(_%1,p) to g(^i%1)*kdelta(_%1^a)*kdelta(_p^m)
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+components(t([],[i],p),g([],[i,j])*t([j],[],p));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(t([],[i],p)))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+D:ishow(contract(rename(diff(%,t([a],[],m)))))$  /* use for the derivative rule below */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+remcomps(t);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Make a rule to replace the two derivatives
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+matchdeclare([_i,_p,_a,_m,_q],atom);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+tellsimpafter('diff(t([],[i],p),t([a],[],m)),g([],[i,a])*kdelta([p],[m]));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+tellsimpafter('diff(t([],[i],p)*g([],[p,q])*t([i],[],q),t([a],[])),0);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+disprule(derivativerule4,derivativerule5)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Test derivative
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(diff(t([],[i],p),t([a],[],m)))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Now do the Euler-Lagrange Equation. The first diff is zero.
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+re:ishow(contract('diff(t([i],[],q)*t([],[i],p)*g([],[p,q]),t([a],[]))-'idiff(diff(t([i],[],q)*t([],[i],p)*g([],[p,q]),t([a],[],m)),m)))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(contract(ev(re,idiff)))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(contract(canform(contract(rename(%)))))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(%-result)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Variation with respect to coordinates is indicial differentiation
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('idiff(t([j],[i]),x([],[k])))$  /* the tensor needs to be replaced with the k as coordinate */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(idiff(t([j],[i]),k))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(%-t([j],[i],k))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(t([j],[i]),x([k])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+components(t([j],[i]),g([],[i,m])*t([m,j],[]));     /* it needs components define to do the lowering of index */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(idiff(t([j],[i]),k)))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(flushd(%,g))$                                          /* flush the extra term g that has a derivative */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(%-g([],[i,%1])*t([%1,j],[],k))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+remcomps(t);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Ivariation Examples from Macsyma
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(tt([i]),tt([a])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(diff(tt([i]),tt([a])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(%-kdelta([i],[a]))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(baz*tt([i],[])*ss([j],[]),tt([a],[])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(diff(baz*tt([i],[])*ss([j],[]),tt([a],[])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(%-baz*kdelta([i],[a])*ss([j],[]))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(tt([i],[k]),tt([a],[b])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(diff(tt([i],[k]),tt([a],[b])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(%-kdelta([b],[k])*kdelta([i],[a]))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow('diff(tt([i],[])*ss([j],[i]),tt([a])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(rename(diff(tt([i],[])*ss([j],[i]),tt([a]))))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(%-kdelta([%1],[a])*ss([j],[%1]))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Done
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Test symmetry components using kdels
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+remcomps(s);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+decsym(g,2,0,[sym(all)],[])$
+decsym(g,0,2,[],[sym(all)])$
+dispsym(g,2,0);
+dispsym(g,0,2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Load components
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+components(s([a,b],[]),kdels([a,b],[u,v])*g([u,v],[])/2);
+components(s([],[a,b]),kdels([u,v],[a,b])*g([],[u,v])/2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(s([a,b]))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(s([b,a]))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(canform(rename(%th(2)-%th(1))))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(contract(canform(rename(s([1,2])))))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(canform(contract(%)))$ /* this is reduced because of g symmetry */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(canform(%-g([1,2])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+remcomps(s);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+dispsym(g,2,0);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+dispsym(g,0,2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+_error;
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 26.01.0-DevelopmentSnapshot"$
