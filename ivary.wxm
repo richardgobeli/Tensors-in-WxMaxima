@@ -6,6 +6,11 @@ Duplicate the Ivariation function in MacSyma
 
 
 /* [wxMaxima: input   start ] */
+("Can be run as a demo in Maxima, xMaxima, or wxMaxima")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ("Duplicate the Ivariation function Demo in Macsyma")$
 /* [wxMaxima: input   end   ] */
 
@@ -507,6 +512,7 @@ if %=0 then true else _error:_error +1;
 /* [wxMaxima: section start ]
 Test diff_canonicalize is true in MacSyma
 This should be all permutations of a and b.
+If diff_canonicalize is false then this would be only one permutation
    [wxMaxima: section end   ] */
 
 
@@ -517,7 +523,8 @@ This should be all permutations of a and b.
 
 /* [wxMaxima: input   start ] */
 ("Test diff_canonicalize is true in Macsyma
-This should be all permutations of a and b")$
+This should be all permutations of a and b
+If diff_canonicalize is false then this would be only one permutation")$
 /* [wxMaxima: input   end   ] */
 
 
@@ -1366,12 +1373,12 @@ if %=0 then true else _error:_error +1;
 
 /* [wxMaxima: section start ]
 Test
-need to define the variation
+need to define the variation because of invert
    [wxMaxima: section end   ] */
 
 
 /* [wxMaxima: input   start ] */
-("Test 25  Need to define variation because of invert tensor")$
+("Test 25  Need to define variation because of one is the invert of the other")$
 /* [wxMaxima: input   end   ] */
 
 
@@ -1392,17 +1399,17 @@ tellsimpafter('diff(ifri([_j],[_b]),ifr([_a],[_i])),-ifri([_i],[_b])*ifri([_j],[
 
 
 /* [wxMaxima: input   start ] */
-ishow('diff(ifri([j],[b]),ifr([a],[i])))$
+ishow('diff('ifri([j],[b]),ifr([a],[i])))$
 /* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
-ishow(ev(%,diff))$ /* result */
+ishow(diff(ifri([j],[b]),ifr([a],[i])))$
 /* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
-%--(ifri([i],[b])*ifri([j],[a]));
+%-(-ifri([i],[b])*ifri([j],[a]));
 /* [wxMaxima: input   end   ] */
 
 
@@ -1477,7 +1484,7 @@ ishow(diff(determinant(ifri),ifr([a],[i])))$
 
 
 /* [wxMaxima: input   start ] */
-%--(ifri([i],[a])*determinant(ifri));
+%-(-ifri([i],[a])*determinant(ifri));
 /* [wxMaxima: input   end   ] */
 
 
@@ -2140,6 +2147,16 @@ dispsym(g,0,2);
 
 /* [wxMaxima: input   start ] */
 _error;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+version:"03-Jan-2026";
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("version 03-Jan-2026")$
 /* [wxMaxima: input   end   ] */
 
 
