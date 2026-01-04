@@ -2,6 +2,7 @@
 /* [ Created with wxMaxima version 26.01.0-DevelopmentSnapshot ] */
 /* [wxMaxima: title   start ]
 Duplicate the Ivariation function in MacSyma
+("Can be run as a demo in Maxima, xMaxima, or wxMaxima")$
    [wxMaxima: title   end   ] */
 
 
@@ -2146,3 +2147,4 @@ _error;
 
 /* Old versions of Maxima abort on loading files that end in a comment. */
 "Created with wxMaxima 26.01.0-DevelopmentSnapshot"$
+
