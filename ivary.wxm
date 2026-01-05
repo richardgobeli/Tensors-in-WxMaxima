@@ -1,7 +1,7 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
 /* [ Created with wxMaxima version 26.01.0-DevelopmentSnapshot ] */
 /* [wxMaxima: title   start ]
-Duplicate the Ivariation function in MacSyma
+Duplicate the Ivariation Demo in MacSyma
    [wxMaxima: title   end   ] */
 
 
@@ -11,7 +11,7 @@ Duplicate the Ivariation function in MacSyma
 
 
 /* [wxMaxima: input   start ] */
-("Duplicate the Ivariation function Demo in Macsyma")$
+("Duplicate the Ivariation Demo in Macsyma with some added variations")$
 /* [wxMaxima: input   end   ] */
 
 
@@ -1271,7 +1271,7 @@ Test
 
 
 /* [wxMaxima: input   start ] */
-("Test 22 variations of determinant of metric w.r.t the metric")$
+("Test 22 variations of sqrt(-determinant) of metric w.r.t the metric")$
 /* [wxMaxima: input   end   ] */
 
 
@@ -1328,6 +1328,47 @@ if %=0 then true else _error:_error +1;
 
 /* [wxMaxima: input   start ] */
 kill(root,rootdiff);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Take variations of the determinant of metric w.r.t the metric
+Test
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("Test 22 variations of determinant of metric w.r.t the metric")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+root:ishow('diff(determinant(g),g([a,b])))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("diff  the determinant")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(ev(root,diff))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rat(%-(determinant(g)*g([],[a,b])));  /* check */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill(root);
 /* [wxMaxima: input   end   ] */
 
 
@@ -1697,6 +1738,11 @@ First term is the same but second term is minus coordinate derivative of tensor 
 
 
 /* [wxMaxima: input   start ] */
+coord(c);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow('diff(t([i],[],q)*u([],[i]),t([a],[]))-'idiff('diff(t([i],[],q)*u([],[i]),t([a],[],c)),c))$
 /* [wxMaxima: input   end   ] */
 
@@ -1713,6 +1759,11 @@ ishow(rename(ev(%,diff,idiff)))$
 
 /* [wxMaxima: input   start ] */
 if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+remcoord(c);
 /* [wxMaxima: input   end   ] */
 
 
@@ -1749,7 +1800,7 @@ Here is the Euler-Lagrange equation
 
 
 /* [wxMaxima: input   start ] */
-ishow('diff(t([i],[],q)*t([],[i],p)*g([],[p,q]),t([a],[]))-1*idiff('diff(t([i],[],q)*t([],[i],p)*g([],[p,q]),t([a],[],x)),x))$
+ishow('diff(t([i],[],q)*t([],[i],p)*g([],[p,q]),t([a],[]))-'idiff('diff(t([i],[],q)*t([],[i],p)*g([],[p,q]),t([a],[],x)),x))$
 /* [wxMaxima: input   end   ] */
 
 
@@ -1826,6 +1877,11 @@ Now do the Euler-Lagrange Equation. The first diff term is zero.
 
 
 /* [wxMaxima: input   start ] */
+coord(m);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 re:ishow(contract('diff(t([i],[],q)*t([],[i],p)*g([],[p,q]),t([a],[]))-'idiff(diff(t([i],[],q)*t([],[i],p)*g([],[p,q]),t([a],[],m)),m)))$
 /* [wxMaxima: input   end   ] */
 
@@ -1850,10 +1906,20 @@ if %=0 then true else _error:_error +1;
 /* [wxMaxima: input   end   ] */
 
 
+/* [wxMaxima: input   start ] */
+remcoord(x);
+/* [wxMaxima: input   end   ] */
+
+
 /* [wxMaxima: section start ]
 Variation with respect to coordinates is indicial differentiation
 Test
    [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+coord(x);
+/* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
@@ -1938,6 +2004,11 @@ if %=0 then true else _error:_error +1;
 
 /* [wxMaxima: input   start ] */
 remcomps(t);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+remcoord(x);
 /* [wxMaxima: input   end   ] */
 
 
@@ -2112,6 +2183,11 @@ components(s([],[a,b]),kdels([u,v],[a,b])*g([],[u,v])/2);
 
 
 /* [wxMaxima: input   start ] */
+showcomps(canform(contract(canform(s([b,a],[])))));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 ishow(s([a,b]))$
 /* [wxMaxima: input   end   ] */
 
@@ -2172,12 +2248,12 @@ _error;
 
 
 /* [wxMaxima: input   start ] */
-version:"04-Jan-2026";
+version:"05-Jan-2026";
 /* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
-("version 04-Jan-2026")$
+("version 05-Jan-2026")$
 /* [wxMaxima: input   end   ] */
 
 
