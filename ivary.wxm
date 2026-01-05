@@ -1781,6 +1781,11 @@ First define the result.
 
 
 /* [wxMaxima: input   start ] */
+coord(x);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 result:ishow(canform(rename(contract(-t([%1],[],%2,%3)*g([],[%1,a])*kdelta([%4],[%2])*g([],[%4,%3])
                         -t([%1],[],%2)*g([],[%1,a],%3)*kdelta([%4],[%3])*g([],[%4,%2])
                         -kdelta([%1],[a])*t([],[%1],%2)*g([],[%2,%4],%3)*kdelta([%4],[%3])
@@ -1833,6 +1838,11 @@ ishow(contract(rename(diff(%,t([a],[],m)))))$  /* use for the derivative rule be
 
 /* [wxMaxima: input   start ] */
 remcomps(t);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+remcoord(x);
 /* [wxMaxima: input   end   ] */
 
 
@@ -1907,7 +1917,7 @@ if %=0 then true else _error:_error +1;
 
 
 /* [wxMaxima: input   start ] */
-remcoord(x);
+remcoord(m);
 /* [wxMaxima: input   end   ] */
 
 
@@ -1949,6 +1959,11 @@ ishow(%-t([j],[i],k))$
 
 /* [wxMaxima: input   start ] */
 if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+remcoord(x);
 /* [wxMaxima: input   end   ] */
 
 
@@ -2004,11 +2019,6 @@ if %=0 then true else _error:_error +1;
 
 /* [wxMaxima: input   start ] */
 remcomps(t);
-/* [wxMaxima: input   end   ] */
-
-
-/* [wxMaxima: input   start ] */
-remcoord(x);
 /* [wxMaxima: input   end   ] */
 
 
