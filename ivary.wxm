@@ -1282,22 +1282,38 @@ ishow('diff(sqrt(abs(determinant(g))),g([a,b])))$
 
 
 /* [wxMaxima: input   start ] */
-rootscontract(sqrt(abs(determinant(g)))); /* get rid of the abs function */
+root:rootscontract(sqrt(abs(determinant(g))));        /* get rid of the abs function */
 /* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
-ishow(rootscontract(diff(%,g([a,b]))))$
+("diff  the determinant squared root to the 4th")$
 /* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
-subst([determinant(g)^2=_xx],%);
+rootdiff:ishow(rootscontract(diff(root,g([a,b]))))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: hide output   ] */
+/* [wxMaxima: input   start ] */
+("replace the determinant squared and simplify")$
 /* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
-ishow(subst([_xx=determinant(g)^2],%))$ /* result */
+rootdiff:subst([determinant(g)^2=_xx],rootdiff);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+("restore the determinant^2")$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(subst([_xx=determinant(g)^2],rootdiff))$ /* result */
 /* [wxMaxima: input   end   ] */
 
 
@@ -1308,6 +1324,11 @@ ishow(subst([_xx=determinant(g)^2],%))$ /* result */
 
 /* [wxMaxima: input   start ] */
 if %=0 then true else _error:_error +1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill(root,rootdiff);
 /* [wxMaxima: input   end   ] */
 
 
@@ -1332,7 +1353,7 @@ ishow(ev(%,diff))$
 
 
 /* [wxMaxima: input   start ] */
-ratsimp(%+(determinant(g)*g([a,b],[])));
+ratsimp(%-(-determinant(g)*g([a,b],[])));
 /* [wxMaxima: input   end   ] */
 
 
@@ -2152,12 +2173,12 @@ _error;
 
 
 /* [wxMaxima: input   start ] */
-version:"03-Jan-2026";
+version:"04-Jan-2026";
 /* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
-("version 03-Jan-2026")$
+("version 04-Jan-2026")$
 /* [wxMaxima: input   end   ] */
 
 
