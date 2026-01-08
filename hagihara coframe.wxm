@@ -13,7 +13,7 @@ Setting up
 
 
 /* [wxMaxima: input   start ] */
-("Find the Hadihara frame that defines orbit in schwarzschild metric.  Setting up");
+("Find the Hadihara frame that defines orbit in schwarzschild metric.  Setting up")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -58,7 +58,7 @@ Use square brackets for matrices
 
 
 /* [wxMaxima: input   start ] */
-("Use square brackets for matrices");
+("Use square brackets for matrices")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -73,7 +73,7 @@ Enter exterior Schwarzschild metric with frames
 
 
 /* [wxMaxima: input   start ] */
-("Enter exterior Schwarzschild metric with frames");
+("Enter exterior Schwarzschild metric with frames")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -105,7 +105,7 @@ facts(c);
 
 /* [wxMaxima: input   start ] */
 ("Dummy coordinate definition
-list:[equations,[coordinates]]    ");
+list:[equations,[coordinates]]    ")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -115,7 +115,7 @@ list:[t,r,theta,phi,[t,r,theta,phi]];
 
 
 /* [wxMaxima: input   start ] */
-("Transform the exteior Schwarzschild coframe to the same coordinates");
+("Transform the exteior Schwarzschild coframe to the same coordinates")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -159,12 +159,12 @@ This is a static shell frame.
 /* [wxMaxima: input   start ] */
 ("Find velocity of coframe fri in Schwarzschild coordinates.
 Fri being similar to diagonal metric square root.
-This is a static shell frame.");
+This is a static shell frame.")$;
 /* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
-("set up rest speed uv1 in frame ");
+("set up rest speed uv1 in frame ")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -184,7 +184,7 @@ kill(ufv)$
 
 
 /* [wxMaxima: input   start ] */
-("find the speed in schwarzschild coordinates");
+("find the speed in schwarzschild coordinates")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -216,7 +216,7 @@ coordinates has no spatial components.
 
 /* [wxMaxima: input   start ] */
 ("Static shell frame 4 velocity in Schwarzschild
-coordinates has no spatial components.");
+coordinates has no spatial components.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -251,7 +251,7 @@ Magnitude is constant -c^2=-1
 
 
 /* [wxMaxima: input   start ] */
-("Magnitude is constant -c^2=-1");
+("Magnitude is constant -c^2=-1")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -266,7 +266,7 @@ Find the 4 acceleration in the frame.
 
 
 /* [wxMaxima: input   start ] */
-("Find the 4 acceleration in the frame using schwarzschild coordinates.");
+("Find the 4 acceleration in the frame using schwarzschild coordinates.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -315,7 +315,7 @@ directed downward.
 /* [wxMaxima: input   start ] */
 ("Exterior Schwarzschild frame 4 acceleration
 Components are the effective gravity for stationary observer
-directed downward.");
+directed downward.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -358,7 +358,7 @@ angluar momentum and energy.
 orbit, which is the Hagihara observers.
 Stable orbits would be r > 6*m. 
 Unstable orbits 3*m < r < 6*m because of 
-angluar momentum and energy.");
+angluar momentum and energy.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -384,7 +384,7 @@ depends([aa,bb,cc,dd],ct_coords);
 
 /* [wxMaxima: input   start ] */
 ("Put the boost in the phi coordinate
-set up the mixed fri coframe.");
+set up the mixed fri coframe.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -405,7 +405,7 @@ fri:lfg.mfri;
 
 /* [wxMaxima: input   start ] */
 ("calculate the new frame dependant fr.  
-    It shows the boost in phi coordinate.");
+    It shows the boost in phi coordinate.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -420,7 +420,7 @@ Start with this coframe and it should get Schwarzschild metric back.
 
 
 /* [wxMaxima: input   start ] */
-("Start with this coframe and it should get Schwarzschild metric back.");
+("Start with this coframe and it should get Schwarzschild metric back.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -435,7 +435,7 @@ Get the metric from this coframe
 
 
 /* [wxMaxima: input   start ] */
-("Get the metric from this coframe");
+("Get the metric from this coframe")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -450,7 +450,7 @@ Equate to the exterior Schwarzschild metric.
 
 
 /* [wxMaxima: input   start ] */
-("Equate to the exterior Schwarzschild metric.");
+("Equate to the exterior Schwarzschild metric.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -470,7 +470,7 @@ eq3:lgg[1,1]=lg[1,1];
 
 
 /* [wxMaxima: input   start ] */
-("solve for aa,bb,dd");
+("solve for aa,bb,dd")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -480,7 +480,7 @@ sol:solve([eq1,eq2,eq3],[aa,bb,dd]);
 
 
 /* [wxMaxima: input   start ] */
-("use solution 1 where aa,bb,dd are positive");
+("use solution 1 where aa,bb,dd are positive")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -497,7 +497,7 @@ Solve for 4 acceleration to be zero to get cc(r).
 
 /* [wxMaxima: input   start ] */
 ("Substitute back in and there is still one unknown cc(r)
-Solve for 4 acceleration to be zero to get cc(r).");
+Solve for 4 acceleration to be zero to get cc(r).")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -517,7 +517,7 @@ Equation for metric from coframe.
 
 
 /* [wxMaxima: input   start ] */
-("Equation for metric from coframe.");
+("Equation for metric from coframe.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -532,7 +532,7 @@ This coframe gives the exterior Schwarzschild metric.
 
 
 /* [wxMaxima: input   start ] */
-("This coframe gives the exterior Schwarzschild metric.");
+("This coframe gives the exterior Schwarzschild metric.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -559,7 +559,7 @@ Start with orbiting observer in the coframe field.
 
 /* [wxMaxima: input   start ] */
 ("Find the 4 acceleration in the Hagihara free falling frame to get cc(r).
-Start with orbiting observer in the coframe field.");
+Start with orbiting observer in the coframe field.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -606,7 +606,7 @@ is set to zero so it is free falling.
 
 /* [wxMaxima: input   start ] */
 ("Hagihara coframe 4 acceleration in radial direction
-is set to zero so it is free falling.");
+is set to zero so it is free falling.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -636,7 +636,7 @@ scc2:solve(eq5,cc^2)[1];
 
 
 /* [wxMaxima: input   start ] */
-("found the missing cc factor to make radial acceleration zero");
+("found the missing cc factor to make radial acceleration zero")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -651,7 +651,7 @@ Substitute factors back in the Hagihara coframe for a solution.
 
 
 /* [wxMaxima: input   start ] */
-("Substitute factors back in the Hagihara coframe for a solution.");
+("Substitute factors back in the Hagihara coframe for a solution.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -682,7 +682,7 @@ Found the free falling Schwarzschild vacuum Hagihara frame and Hagihara coframe 
 
 
 /* [wxMaxima: input   start ] */
-("Found the free falling Schwarzschild vacuum Hagihara frame and Hagihara coframe field.");
+("Found the free falling Schwarzschild vacuum Hagihara frame and Hagihara coframe field.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -704,7 +704,7 @@ is already lowered.
 
 /* [wxMaxima: input   start ] */
 ("Lowered local a index of mfri gives lfri = fri_a_μ.
-is already lowered.");
+is already lowered.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -719,7 +719,7 @@ Lowering coordinate index of fr_a^μ gives lfr_a_μ and is the same as fri_a_μ
 
 
 /* [wxMaxima: input   start ] */
-("Lowering coordinate index of fr_a^μ gives lfr_a_μ and is the same as fri_a_μ");
+("Lowering coordinate index of fr_a^μ gives lfr_a_μ and is the same as fri_a_μ")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -744,7 +744,7 @@ Get metric from coframe
 
 
 /* [wxMaxima: input   start ] */
-("Get metric from coframe");
+("Get metric from coframe")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -759,7 +759,7 @@ It gives the original metric.  This is also from coframe.
 
 
 /* [wxMaxima: input   start ] */
-("It gives the original metric.  This is also from coframe.");
+("It gives the original metric.  This is also from coframe.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -779,7 +779,7 @@ Find the 4 acceleration in the Hagihara coframe.
 
 
 /* [wxMaxima: input   start ] */
-("Find the 4 acceleration in the Hagihara coframe.");
+("Find the 4 acceleration in the Hagihara coframe.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -826,7 +826,7 @@ components
 
 /* [wxMaxima: input   start ] */
 ("Hagihara coframe 4 acceleration is zero so it is free falling on the orbit theta = π/2.
-components");
+components")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -841,7 +841,7 @@ Set theta = π/2 for equator orbit
 
 
 /* [wxMaxima: input   start ] */
-("Set theta = π/2 for equator orbit");
+("Set theta = π/2 for equator orbit")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -851,7 +851,7 @@ for i thru dim do ua[i]:ev(ua[i],theta=π/2);
 
 
 /* [wxMaxima: input   start ] */
-("Total acceleration is zero");
+("Total acceleration is zero")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -866,7 +866,7 @@ Find the 4 velocity of Hagihara coframe in Schwarzschild coordinates.
 
 
 /* [wxMaxima: input   start ] */
-("Find the 4 velocity of Hagihara coframe in Schwarzschild coordinates.");
+("Find the 4 velocity of Hagihara coframe in Schwarzschild coordinates.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -923,7 +923,7 @@ on orbit theta = π/2.  Stable circular orbit is only r > 6*m.
 
 /* [wxMaxima: input   start ] */
 ("Hagihara coframe 4 velocity components in Schwarzschild coordinates
-on orbit theta = π/2.  Stable circular orbit is only r > 6*m.");
+on orbit theta = π/2.  Stable circular orbit is only r > 6*m.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -987,7 +987,7 @@ angular momentum L = m*g[4,4]*U[4]=P_4.
 /* [wxMaxima: input   start ] */
 ("The energy E = -m*g[1,1]*U[1]=P_1 and
 angular momentum L = m*g[4,4]*U[4]=P_4.
-3rd invariant is ε=line element(τ).");
+3rd invariant is ε=line element(τ).")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1012,7 +1012,7 @@ and solve for Energy/2.
 
 /* [wxMaxima: input   start ] */
 ("Calculate the -invariant line element
-and solve for Energy/2.    ");
+and solve for Energy/2.    ")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1031,7 +1031,7 @@ Effective potential.
 
 
 /* [wxMaxima: input   start ] */
-("Effective potential.");
+("Effective potential.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1046,7 +1046,7 @@ func(ε,L,c,m,r):=''veff;
 
 
 /* [wxMaxima: input   start ] */
-("find the minimum of the potential as a function of r");
+("find the minimum of the potential as a function of r")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1083,7 +1083,7 @@ radius is 6*m.
 
 /* [wxMaxima: input   start ] */
 ("When L = sqrt(12*m^4) the minimum stable orbit 
-radius is 6*m.");
+radius is 6*m.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1103,7 +1103,7 @@ Solved for minimum stable orbit
 
 
 /* [wxMaxima: input   start ] */
-("Solved for minimum stable orbit");
+("Solved for minimum stable orbit")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1119,7 +1119,7 @@ Plot the types of orbits possible because of potential.
 
 /* [wxMaxima: input   start ] */
 ("Plot the types of orbits possible because of potential.
-minimumis at L= sqrt(12) about 3.464 ");
+minimumis at L= sqrt(12) about 3.464 ")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1139,7 +1139,7 @@ Components of 4 velocity squared is -c^2
 
 
 /* [wxMaxima: input   start ] */
-("Components of 4 velocity squared is -c^2");
+("Components of 4 velocity squared is -c^2")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1164,7 +1164,7 @@ omega:ums2[4];
 
 
 /* [wxMaxima: input   start ] */
-("Frame speed in orbit at r=6*m");
+("Frame speed in orbit at r=6*m")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1190,7 +1190,7 @@ The energy is P_1 * dt/dτ.
 
 
 /* [wxMaxima: input   start ] */
-("The energy is P_1 * dt/dτ.");
+("The energy is P_1 * dt/dτ.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1210,7 +1210,7 @@ The angluar momentum is P_4*dφ/dτ.
 
 
 /* [wxMaxima: input   start ] */
-("The angluar momentum is P_4*dφ/dτ.");
+("The angluar momentum is P_4*dφ/dτ.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1227,7 +1227,7 @@ using Schwarzschild coordinate metric for scale.
 
 /* [wxMaxima: input   start ] */
 ("Hagihara coframe 4 velocity, dφ/dτ * dτ/dt component magnitude by
-using Schwarzschild coordinate metric for scale.");
+using Schwarzschild coordinate metric for scale.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1257,7 +1257,7 @@ The omega_t at radius r
 
 
 /* [wxMaxima: input   start ] */
-("The omega_t at radius r");
+("The omega_t at radius r")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1270,7 +1270,7 @@ phi_t=omega;
 rfv:solve(%,r)[1];
 /* [wxMaxima: input   end   ] */
 /* [wxMaxima: question  start ] */
-<math><st>Is </st><munder altCopy="omega_t"><mrow><g>omega</g></mrow><mrow><mi>t</mi></mrow></munder><st> positive or negative?</st></math>
+<math><st>Is </st><g>omega</g><st> positive or negative?</st></math>
 /* [wxMaxima: question  end   ] */
 /* [wxMaxima: answer  start ] */
 positive;
@@ -1282,7 +1282,7 @@ positive;
 positive;
 /* [wxMaxima: answer  end   ] */
 /* [wxMaxima: question  start ] */
-<math><st>Is </st><g>omega</g><st> positive or negative?</st></math>
+<math><st>Is </st><munder altCopy="omega_t"><mrow><g>omega</g></mrow><mrow><mi>t</mi></mrow></munder><st> positive or negative?</st></math>
 /* [wxMaxima: question  end   ] */
 /* [wxMaxima: answer  start ] */
 positive;
@@ -1331,7 +1331,7 @@ Start with exterior Schwarzschild Metric.
 
 /* [wxMaxima: input   start ] */
 ("Find Gullstrand–Painlevé Coordinate Chart.
-   Start with exterior Schwarzschild Metric. ");
+   Start with exterior Schwarzschild Metric. ")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1350,7 +1350,7 @@ Find function aaa(r) that is t= tr -aaa(r).
 /* [wxMaxima: input   start ] */
 ("Find Gullstrand–Painlevé coordinates where time coordinate follows
 proper time and spatial slices are flat.  Time component of 4 velocity will be 1.
-Find function aaa(r) that is t= tr -aaa(r).");
+Find function aaa(r) that is t= tr -aaa(r).")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1370,7 +1370,7 @@ Transform the Schwarzschild metric.
 
 
 /* [wxMaxima: input   start ] */
-("New coordinates tranform Schwarzschild metric");
+("New coordinates tranform Schwarzschild metric")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1385,7 +1385,7 @@ Pick aaa(r) so lg[2,2]=1 this will make spatial slices flat.
 
 
 /* [wxMaxima: input   start ] */
-("Pick aaa(r) so lg[2,2]=1 this will make spatial slices flat.");
+("Pick aaa(r) so lg[2,2]=1 this will make spatial slices flat.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1417,7 +1417,7 @@ Coordinates
 
 /* [wxMaxima: input   start ] */
 ("Transform equations for Gullstrand–Painlevé Coordinates from Schwarzschild
-Coordinates");
+Coordinates")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1437,7 +1437,7 @@ Transform the Exterior Schwarzschild metric to Gullstrand–Painlevé metric.
 
 
 /* [wxMaxima: input   start ] */
-("Transform the Exterior Schwarzschild metric to Gullstrand–Painlevé metric.");
+("Transform the Exterior Schwarzschild metric to Gullstrand–Painlevé metric.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1459,7 +1459,7 @@ This is the new Hagihara coframe of the Gullstrand–Painlevé metric.
 
 /* [wxMaxima: input   start ] */
 ("Transform the Hagihara coframe of the Schwarzschild metric.
-This is the new Hagihara coframe of the Gullstrand–Painlevé metric.");
+This is the new Hagihara coframe of the Gullstrand–Painlevé metric.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1476,7 +1476,7 @@ of Gullstrand–Painlevé metric.
 
 /* [wxMaxima: input   start ] */
 ("Save old coordinates and update the new coordinates symbols
-of Gullstrand–Painlevé metric.");
+of Gullstrand–Painlevé metric.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1507,12 +1507,12 @@ This transform does not replace coordinate symbols if changed.
 ("Show what the ctransformfrilist function does.
 Transform matrix for rank 2 tetrade field tensor.
 This only transforms the coordinate index.  The local index of field
-is flat and has no transformation. Show the tetrade transform matrix.");
+is flat and has no transformation. Show the tetrade transform matrix.")$;
 /* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
-("This transform does not replace coordinate symbols if changed.");
+("This transform does not replace coordinate symbols if changed.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1523,7 +1523,7 @@ trm[i,j]:diff(list[i],list[5][j]);
 
 
 /* [wxMaxima: input   start ] */
-("This transformation matrix base on the orginal fri and the new coords list.");
+("This transformation matrix base on the orginal fri and the new coords list.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1538,7 +1538,7 @@ New Hagihara coframe does give Gullstrand–Painlevé metric as below.
 
 
 /* [wxMaxima: input   start ] */
-("New Hagihara coframe does give Gullstrand–Painlevé metric as below.");
+("New Hagihara coframe does give Gullstrand–Painlevé metric as below.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1553,7 +1553,7 @@ Find velocity of frame fr being Hagihara coframe of Gullstrand–Painlevé metri
 
 
 /* [wxMaxima: input   start ] */
-("Find velocity of frame fr being Hagihara coframe of Gullstrand–Painlevé metric.");
+("Find velocity of frame fr being Hagihara coframe of Gullstrand–Painlevé metric.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1569,7 +1569,7 @@ Cmetric gives the frame fr, lg, and ug.
 
 
 /* [wxMaxima: input   start ] */
-("Cmetric gives the frame fr, lg, and ug.");
+("Cmetric gives the frame fr, lg, and ug.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1584,7 +1584,7 @@ The frame needs to be simplified
 
 
 /* [wxMaxima: input   start ] */
-("The frame needs to be simplified");
+("The frame needs to be simplified")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1599,7 +1599,7 @@ This is the Christoffel symbols based on the new fri tetrade field
 
 
 /* [wxMaxima: input   start ] */
-("This is the Christoffel symbols based on the new fri tetrade field");
+("This is the Christoffel symbols based on the new fri tetrade field")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1614,7 +1614,7 @@ Start with frame 4 velocity of a fixed observer in the frame.
 
 
 /* [wxMaxima: input   start ] */
-("Start with frame 4 velocity of a fixed observer in the frame.");
+("Start with frame 4 velocity of a fixed observer in the frame.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1663,7 +1663,7 @@ a φ spatial component.
 /* [wxMaxima: input   start ] */
 ("Hagihara frame 4 velocity in Gullstrand–Painlevé
 coordinates has no e_r component and only 
-a φ spatial component.");
+a φ spatial component.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1687,7 +1687,7 @@ Gullstrand–Painlevé coordinates is infinite and  time is also infinite.
 /* [wxMaxima: input   start ] */
 ("Minium light orbit is where the speed in θ direction is 
 near c for the frame.  But frame speed component in
-Gullstrand–Painlevé coordinates is infinite and  time is also infinite.");
+Gullstrand–Painlevé coordinates is infinite and  time is also infinite.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1719,7 +1719,7 @@ So photo-sphere is at r = 1.5 rs.
 
 /* [wxMaxima: input   start ] */
 ("This speed is big at the radius 3 m and rs = 2 m.
-So photo-sphere is at r = 1.5 rs.");
+So photo-sphere is at r = 1.5 rs.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1734,7 +1734,7 @@ ufvm:matrix([ufv[1],0,0,ufv[4]]);
 
 
 /* [wxMaxima: input   start ] */
-("Calculate magnitude of ufvm");
+("Calculate magnitude of ufvm")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1759,7 +1759,7 @@ Find the 4 acceleration in this frame using coordinate Christoffel symbols.
 
 
 /* [wxMaxima: input   start ] */
-("Find the 4 acceleration in this frame using coordinate Christoffel symbols.");
+("Find the 4 acceleration in this frame using coordinate Christoffel symbols.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1808,7 +1808,7 @@ It is zero when theta = π/2, which is an orbit at the equator.
 /* [wxMaxima: input   start ] */
 ("Hagihara frame in Gullstrand–Painlevé coordinate  4 acceleration
 Components are the effective gravity for Hagihara observer.
-It is zero when theta = π/2, which is an orbit at the equator.");
+It is zero when theta = π/2, which is an orbit at the equator.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1824,7 +1824,7 @@ Frame metric is lfg
 
 /* [wxMaxima: input   start ] */
 ("Frame metric is lfg gives zero acceleration
-and θ = π/2");
+and θ = π/2")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1843,7 +1843,7 @@ Gullstrand–Painlevé metric.
 /* [wxMaxima: input   start ] */
 ("Magnitude of 4 acceleration needed d^2φ/dτ^2 as function of r
 This is the same acceleration at theta= 2*π that the orbit coframe for 
-Gullstrand–Painlevé metric.");
+Gullstrand–Painlevé metric.")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1883,7 +1883,7 @@ cgeodesic(false)$for ii thru dim do block([theta:π/2,r:6*m],geod[ii]:ev(geod[ii
 
 
 /* [wxMaxima: input   start ] */
-("Geodesic in the Gullstrand–Painlevé coordinate");
+("Geodesic in the Gullstrand–Painlevé coordinate")$;
 /* [wxMaxima: input   end   ] */
 
 
@@ -1898,7 +1898,7 @@ cframe_flag:true;
 
 
 /* [wxMaxima: input   start ] */
-("End");
+("End")$;
 /* [wxMaxima: input   end   ] */
 
 
