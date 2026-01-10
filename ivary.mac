@@ -1,0 +1,1221 @@
+/* [wxMaxima: title   start ]
+Duplicate the Ivariation Demo in MacSyma
+   [wxMaxima: title   end   ] */
+
+
+("Can be run as a demo in Maxima, xMaxima, or wxMaxima")$
+
+("Duplicate the Ivariation Demo in Macsyma with some added variations")$
+
+load(itensor);
+
+get('itensor,'version);
+
+imetric(g);
+
+_error:0$
+
+derivabbrev:false$
+
+("The diff function does not understand symmetry so we can remove the following.
+Canform does use symmetry if needed.")$
+
+decsym(g,2,0,[sym(all)],[])$
+decsym(g,0,2,[],[sym(all)])$
+dispsym(g,2,0);
+dispsym(g,0,2);
+
+remsym(g,2,0);         
+remsym(g,0,2);
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 1")$
+
+ishow('diff(foo,t([a])))$
+
+ishow(ev(%,diff))-result:0$
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 2")$
+
+ishow('diff(foo([i]),t([a])))$
+
+ishow(ev(%,diff))-result:0$
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 3")$
+
+ishow('diff(t([i]),t([a])))$
+
+ishow(ev(%,diff))$
+
+%-kdelta([i],[a]);
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test
+It does not know the transform from contravariant to covariant.
+Fixed using the components for the tensor t([],[i]).
+   [wxMaxima: section end   ] */
+
+
+("Test 4")$
+
+("It does not know the transform from contravariant to covariant.
+Fixed using the components for the tensor t([],[i]).")$
+
+components(t([],[i]),g([],[i,j])*t([j],[]));
+
+("show the components")$
+
+ishow('t([],[i])=t([],[i]))$   /*show the components */
+
+ishow('diff('t([],[i]),t([a],[])))$  /* test */
+
+ishow('diff(t([],[i]),t([a],[])))$  /*  stop diff to show the transform */
+
+ishow(ev(%,diff))$  /* result */
+
+remcomps(t);
+
+ishow(contract(%th(2)))$
+
+%-g([],[i,a]);
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 5")$
+
+ishow('diff(baz*t([i])*foo([j]),t([a])))$
+
+ishow(ev(%,diff))$
+
+%-baz*kdelta([i],[a])*foo([j],[]);
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 6")$
+
+ishow('diff(t([i],[j]),t([a],[b])))$
+
+ishow(ev(%,diff))$
+
+%-kdelta([b],[j])*kdelta([i],[a]);
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: subsect start ]
+Check this using new contravariant index method
+   [wxMaxima: subsect end   ] */
+
+
+("Check this using new contravariant index method using -j,-b")$
+
+ishow('diff(t([i,-j],[]),t([a,-b],[])))$
+
+ishow(ev(%,diff))$
+
+/* [wxMaxima: subsect start ]
+ishow does not know how to handle a covariant index write as a minus contravariant index.
+   [wxMaxima: subsect end   ] */
+
+
+("ishow does not understand - index in the contravariant slot")$
+
+ishow(t([-a],[-b]))$
+
+%;
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 7")$
+
+ishow('diff( baz*t([i])*foo([],[i])*bar([j]), t([a]) ))$
+
+ishow(ev(%,diff))$
+
+ishow(rename(%))$ /* rename gives new names to summed indices */
+
+ishow(contract(%))$
+
+rename(%th(3)-baz*foo([],[i])*kdelta([i],[a])*bar([j]));
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 8")$
+
+ishow('diff( t([i])*foo([],[i,m])*bar([j,k]),t([a]) ))$
+
+ishow(ev(%,diff))$
+
+ishow(rename(%))$
+
+ishow(contract(%))$
+
+rename(%th(2)-foo([],[i,m])*kdelta([i],[a])*bar([j,k],[]));
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 9")$
+
+ishow( 'diff( t([i],[j,k])*foo([],[i,m])*bar([j,k],[]), t([a],[b,c]) ) )$
+
+ishow(ev(%,diff))$
+
+ishow(rename(%))$
+
+ishow(contract(%))$
+
+rename(%th(2)-foo([],[i,m])*kdelta([b],[j])*kdelta([c],[k])*kdelta([i],[a])*bar([j,k]));
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 10")$
+
+ishow('diff(t([i],[j,k])*g([],[i,m])*t([m],[p,q])*bar([j,k]), t([a],[b,c])))$
+
+ishow(ev(%,diff))$
+
+ishow(rename(%))$
+
+ishow(canform(contract(%)))$
+
+rename((%th(2)-(g([],[i,m])*kdelta([b],[j])*kdelta([c],[k])*kdelta([i],[a])*bar([j,k],[])*t([m],[p,q]) +
+g([],[i,m])*kdelta([b],[p])*kdelta([c],[q])*t([i],[j,k])*bar([j,k])*kdelta([m],[a]) )));
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 11")$
+
+ishow('diff(g([],[i,m])*t([m],[p,q])*bar([j,k],[]), t([a],[b,c])))$
+
+ishow(ev(%,diff))$
+
+ishow(rename(%))$
+
+ishow(contract(canform(%th(1))))$
+
+rename(%th(2)-g([],[i,m])*kdelta([m],[a])*kdelta([b],[p])*kdelta([c],[q])*bar([j,k],[]));
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is true in MacSyma
+This should be all permutations of a and b.
+If diff_canonicalize is false then this would be only one permutation
+   [wxMaxima: section end   ] */
+
+
+("Test 12")$
+
+("Test diff_canonicalize is true in Macsyma
+This should be all permutations of a and b
+If diff_canonicalize is false then this would be only one permutation")$
+
+decsym(s,2,0,[sym(all)],[])$
+decsym(s,0,2,[],[sym(all)])$
+dispsym(s,2,0);
+dispsym(s,0,2);
+
+ishow('diff(s([i,j],[]),s([a,b],[])))$
+
+ans:ishow(ev(%,diff))$
+
+/* [wxMaxima: subsect start ]
+Not zero
+   [wxMaxima: subsect end   ] */
+
+
+("Does not work")$
+
+ishow(rename(ans- (kdelta([i],[a])*kdelta([j],[b])
++kdelta([i],[b])*kdelta([j],[a]))/2  ))$
+
+ishow(expand(%))$
+
+/* [wxMaxima: subsect start ]
+Fix for above
+diff_canonicalize is true in MacSyma
+Needs all permutations of derivative tensor
+   [wxMaxima: subsect end   ] */
+
+
+("Fix for permutations")$
+
+ishow(('diff(s([i,j],[]),s([a,b],[]))+'diff(s([i,j],[]),s([b,a],[])))/2)$
+
+ishow(ev(%,diff))$
+
+ishow(rename(%- (kdelta([i],[a])*kdelta([j],[b])
++kdelta([i],[b])*kdelta([j],[a]))/2  ))$
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is true in MacSyma
+This is all permutations and a and b
+   [wxMaxima: section end   ] */
+
+
+("Test 13 permutations again")$
+
+ishow('diff(s([],[i,j]),s([],[a,b])))$
+
+ishow(ev(%,diff))$
+
+/* [wxMaxima: subsect start ]
+Not zero
+   [wxMaxima: subsect end   ] */
+
+
+ishow(rename(%- (kdelta([a],[i])*kdelta([b],[j])
++kdelta([b],[i])*kdelta([a],[j]))/2  ))$
+
+ishow(expand(%))$
+
+/* [wxMaxima: subsect start ]
+Fix for above
+diff_canonicalize is true in MacSyma
+Needs all permutations of derivative tensor
+   [wxMaxima: subsect end   ] */
+
+
+("Fix")$
+
+ishow(('diff(s([],[i,j]),s([],[a,b]))+'diff(s([],[i,j]),s([],[b,a])))/2)$
+
+ishow(ev(%,diff))$
+
+ishow(rename(%- (kdelta([a],[i])*kdelta([b],[j])
++kdelta([b],[i])*kdelta([a],[j]))/2  ))$
+
+if %=0 then true else _error:_error +1;
+
+remsym(s,2,0);
+remsym(s,0,2);
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is true in MacSyma
+Needs to be all permutations
+   [wxMaxima: section end   ] */
+
+
+("Test 14")$
+
+decsym(s3,3,0,[sym(all)],[])$
+decsym(s3,0,3,[],[sym(all)])$
+dispsym(s3,3,0);
+dispsym(s3,0,3);
+
+ishow('diff(s3([i,j,k],[]),s3([a,b,c],[])))$
+
+ishow(ev(%,diff))$
+
+/* [wxMaxima: subsect start ]
+Not zero
+   [wxMaxima: subsect end   ] */
+
+
+ishow(rename(%- (kdelta([i],[a])*kdelta([j],[b])*kdelta([k],[c])
++kdelta([i],[b])*kdelta([j],[c])*kdelta([k],[a])
++kdelta([i],[c])*kdelta([j],[a])*kdelta([k],[b])            
++kdelta([i],[c])*kdelta([j],[b])*kdelta([k],[a])
++kdelta([i],[b])*kdelta([j],[a])*kdelta([k],[c])
++kdelta([i],[a])*kdelta([j],[c])*kdelta([k],[b]))/6 ))$
+
+ishow(expand(%))$
+
+/* [wxMaxima: subsect start ]
+Fix for above
+diff_canonicalize is true in MacSyma
+Needs all permutations of derivative tensor
+   [wxMaxima: subsect end   ] */
+
+
+ishow(('diff(s3([i,j,k],[]),s3([a,b,c],[]))
++'diff(s3([i,j,k],[]),s3([b,c,a],[]))
++'diff(s3([i,j,k],[]),s3([c,a,b],[]))
++'diff(s3([i,j,k],[]),s3([c,b,a],[]))
++'diff(s3([i,j,k],[]),s3([b,a,c],[]))
++'diff(s3([i,j,k],[]),s3([a,c,b],[]))   )/6)$
+
+ishow(ev(%,diff))$
+
+ishow(rename(%- (kdelta([i],[a])*kdelta([j],[b])*kdelta([k],[c])
++kdelta([i],[b])*kdelta([j],[c])*kdelta([k],[a])
++kdelta([i],[c])*kdelta([j],[a])*kdelta([k],[b])            
++kdelta([i],[c])*kdelta([j],[b])*kdelta([k],[a])
++kdelta([i],[b])*kdelta([j],[a])*kdelta([k],[c])
++kdelta([i],[a])*kdelta([j],[c])*kdelta([k],[b]))/6 ))$
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is true in MacSyma
+Needs to be all permutations
+   [wxMaxima: section end   ] */
+
+
+("Test 15")$
+
+ishow('diff(s3([],[i,j,k]),s3([],[a,b,c])))$
+
+ishow(ev(%,diff))$
+
+/* [wxMaxima: subsect start ]
+Not zero
+   [wxMaxima: subsect end   ] */
+
+
+ishow(rename(%- (kdelta([a],[i])*kdelta([b],[j])*kdelta([c],[k])
++kdelta([a],[j])*kdelta([b],[k])*kdelta([c],[i])
++kdelta([a],[k])*kdelta([b],[i])*kdelta([c],[j])
++kdelta([a],[k])*kdelta([b],[j])*kdelta([c],[i])
++kdelta([a],[j])*kdelta([b],[i])*kdelta([c],[k])
++kdelta([a],[i])*kdelta([b],[k])*kdelta([c],[j]))/6 ))$
+
+ishow(expand(%))$
+
+/* [wxMaxima: subsect start ]
+Fix for above
+diff_canonicalize is true in MacSyma
+Needs all permutations of derivative tensor
+   [wxMaxima: subsect end   ] */
+
+
+ishow(('diff(s3([],[i,j,k]),s3([],[a,b,c]))
++'diff(s3([],[i,j,k]),s3([],[b,c,a]))
++'diff(s3([],[i,j,k]),s3([],[c,a,b]))
++'diff(s3([],[i,j,k]),s3([],[c,b,a]))
++'diff(s3([],[i,j,k]),s3([],[b,a,c]))
++'diff(s3([],[i,j,k]),s3([],[a,c,b]))   )/6)$
+
+ishow(ev(%,diff))$
+
+ishow(rename(%- (kdelta([a],[i])*kdelta([b],[j])*kdelta([c],[k])
++kdelta([a],[j])*kdelta([b],[k])*kdelta([c],[i])
++kdelta([a],[k])*kdelta([b],[i])*kdelta([c],[j])
++kdelta([a],[k])*kdelta([b],[j])*kdelta([c],[i])
++kdelta([a],[j])*kdelta([b],[i])*kdelta([c],[k])
++kdelta([a],[i])*kdelta([b],[k])*kdelta([c],[j]))/6 ))$
+
+if %=0 then true else _error:_error +1;
+
+remsym(s3,3,0);
+remsym(s3,0,3);
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is true in MacSyma
+Needs to be all permutations
+   [wxMaxima: section end   ] */
+
+
+("Test 16")$
+
+decsym(an,2,0,[anti(all)],[])$
+decsym(an,0,2,[],[anti(all)])$
+dispsym(an,2,0);
+dispsym(an,0,2);
+
+ishow('diff(an([i,j]),an([a,b])))$
+
+ishow(ev(%,diff))$
+
+/* [wxMaxima: subsect start ]
+Not zero
+   [wxMaxima: subsect end   ] */
+
+
+ishow(rename(%-  (kdelta([i],[a])*kdelta([j],[b])
+-kdelta([i],[b])*kdelta([j],[a]))/2  ))$
+
+ishow(expand(%))$
+
+/* [wxMaxima: subsect start ]
+Fix for above
+diff_canonicalize is true in MacSyma
+Needs all permutations of derivative tensor
+   [wxMaxima: subsect end   ] */
+
+
+ishow(('diff(an([i,j]),an([a,b]))
+-'diff(an([i,j]),an([b,a]))   )/2)$
+
+ishow(ev(%,diff))$
+
+ishow(rename(%-  (kdelta([i],[a])*kdelta([j],[b])
+-kdelta([i],[b])*kdelta([j],[a]))/2  ))$
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is true in MacSyma
+Needs to be all permutations
+   [wxMaxima: section end   ] */
+
+
+("Test 17")$
+
+ishow('diff(an([],[i,j]),an([],[a,b])))$
+
+ishow(ev(%,diff))$
+
+/* [wxMaxima: subsect start ]
+Not zero
+   [wxMaxima: subsect end   ] */
+
+
+ishow(rename(%-  (kdelta([a],[i])*kdelta([b],[j])
+-kdelta([a],[j])*kdelta([b],[i]))/2  ))$
+
+ishow(expand(%))$
+
+/* [wxMaxima: subsect start ]
+Fix for above
+diff_canonicalize is true in MacSyma
+Needs all permutations of derivative tensor
+   [wxMaxima: subsect end   ] */
+
+
+ishow(('diff(an([],[i,j]),an([],[a,b]))
+-'diff(an([],[i,j]),an([],[b,a]))    )/2)$
+
+ishow(ev(%,diff))$
+
+ishow(rename(%-  (kdelta([a],[i])*kdelta([b],[j])
+-kdelta([a],[j])*kdelta([b],[i]))/2  ))$
+
+if %=0 then true else _error:_error +1;
+
+remsym(an,2,0);
+remsym(an,0,2);
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is true in MacSyma
+Needs to be all permutations
+   [wxMaxima: section end   ] */
+
+
+("Test 18")$
+
+decsym(an3,3,0,[anti(all)],[])$
+decsym(an3,0,3,[],[anti(all)])$
+dispsym(an3,3,0);
+dispsym(an3,0,3);
+
+ishow('diff(an3([i,j,k],[]),an3([a,b,c],[])))$
+
+ishow(ev(%,diff))$
+
+/* [wxMaxima: subsect start ]
+Not zero
+   [wxMaxima: subsect end   ] */
+
+
+ishow(rename(%- (kdelta([i],[a])*kdelta([j],[b])*kdelta([k],[c])
++kdelta([i],[b])*kdelta([j],[c])*kdelta([k],[a])
++kdelta([i],[c])*kdelta([j],[a])*kdelta([k],[b])
+-kdelta([i],[c])*kdelta([j],[b])*kdelta([k],[a])
+-kdelta([i],[b])*kdelta([j],[a])*kdelta([k],[c])
+-kdelta([i],[a])*kdelta([j],[c])*kdelta([k],[b])      )/6  ))$
+
+ishow(expand(%))$
+
+/* [wxMaxima: subsect start ]
+Fix for above
+diff_canonicalize is true in MacSyma
+Needs all permutations of derivative tensor
+   [wxMaxima: subsect end   ] */
+
+
+ishow((diff(an3([i,j,k],[]),an3([a,b,c],[]))
++diff(an3([i,j,k],[]),an3([b,c,a],[]))
++diff(an3([i,j,k],[]),an3([c,a,b],[]))
+-diff(an3([i,j,k],[]),an3([c,b,a],[]))
+-diff(an3([i,j,k],[]),an3([b,a,c],[]))
+-diff(an3([i,j,k],[]),an3([a,c,b],[]))    )/6)$
+
+ishow(rename(%- (kdelta([i],[a])*kdelta([j],[b])*kdelta([k],[c])
++kdelta([i],[b])*kdelta([j],[c])*kdelta([k],[a])
++kdelta([i],[c])*kdelta([j],[a])*kdelta([k],[b])
+-kdelta([i],[c])*kdelta([j],[b])*kdelta([k],[a])
+-kdelta([i],[b])*kdelta([j],[a])*kdelta([k],[c])
+-kdelta([i],[a])*kdelta([j],[c])*kdelta([k],[b])      )/6  ))$
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is true in MacSyma
+Needs to be all permutations
+   [wxMaxima: section end   ] */
+
+
+("Test 19")$
+
+ishow(diff(an3([],[i,j,k]),an3([],[a,b,c])))$
+
+/* [wxMaxima: subsect start ]
+Not zero
+   [wxMaxima: subsect end   ] */
+
+
+ishow(rename(%- (kdelta([a],[i])*kdelta([b],[j])*kdelta([c],[k])
++kdelta([a],[j])*kdelta([b],[k])*kdelta([c],[i])
++kdelta([a],[k])*kdelta([b],[i])*kdelta([c],[j])
+-kdelta([a],[k])*kdelta([b],[j])*kdelta([c],[i])
+-kdelta([a],[j])*kdelta([b],[i])*kdelta([c],[k])
+-kdelta([a],[i])*kdelta([b],[k])*kdelta([c],[j])      )/6  ))$
+
+ishow(expand(%))$
+
+/* [wxMaxima: subsect start ]
+Fix for above
+diff_canonicalize is true in MacSyma
+Needs all permutations of derivative tensor
+   [wxMaxima: subsect end   ] */
+
+
+ishow(('diff(an3([],[i,j,k]),an3([],[a,b,c]))
++'diff(an3([],[i,j,k]),an3([],[b,c,a]))
++'diff(an3([],[i,j,k]),an3([],[c,a,b]))
+-'diff(an3([],[i,j,k]),an3([],[c,b,a]))
+-'diff(an3([],[i,j,k]),an3([],[b,a,c]))
+-'diff(an3([],[i,j,k]),an3([],[a,c,b]))     )/6    )$
+
+ishow(ev(%,diff))$
+
+ishow(rename(%- (kdelta([a],[i])*kdelta([b],[j])*kdelta([c],[k])
++kdelta([a],[j])*kdelta([b],[k])*kdelta([c],[i])
++kdelta([a],[k])*kdelta([b],[i])*kdelta([c],[j])
+-kdelta([a],[k])*kdelta([b],[j])*kdelta([c],[i])
+-kdelta([a],[j])*kdelta([b],[i])*kdelta([c],[k])
+-kdelta([a],[i])*kdelta([b],[k])*kdelta([c],[j])      )/6  ))$
+
+if %=0 then true else _error:_error +1;
+
+remsym(an3,3,0);
+remsym(an3,0,3);
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is true in MacSyma
+Needs to be all permutations
+   [wxMaxima: section end   ] */
+
+
+("Test 20")$
+
+decsym(cyc3,3,0,[cyc(all)],[]);
+dispsym(cyc3,3,0);
+
+/* [wxMaxima: subsect start ]
+Fix for above
+diff_canonicalize is true in MacSyma
+Needs all permutations of derivative tensor
+   [wxMaxima: subsect end   ] */
+
+
+ishow(('diff(cyc3([i,j,k],[]),cyc3([a,b,c],[]))
+        +'diff(cyc3([i,j,k],[]),cyc3([b,c,a],[]))
+        +'diff(cyc3([i,j,k],[]),cyc3([c,a,b],[])))/3)$
+
+ishow(ev(%,diff))$
+
+%- (kdelta([i],[a])*kdelta([j],[b])*kdelta([k],[c])+kdelta([i],[c])*kdelta([j],[a])*kdelta([k],[b])+kdelta([i],[b])*kdelta([j],[c])*kdelta([k],[a]))/3;
+
+/* [wxMaxima: subsect start ]
+Fix for above
+diff_canonicalize is true in MacSyma
+Needs all permutations of derivative tensor
+   [wxMaxima: subsect end   ] */
+
+
+ishow(('diff(cyc3([],[i,j,k]),cyc3([],[a,b,c]))
+        +'diff(cyc3([],[i,j,k]),cyc3([],[b,c,a]))
+        +'diff(cyc3([],[i,j,k]),cyc3([],[c,a,b])))/3)$
+
+ishow(ev(%,diff))$
+
+%-(kdelta([a],[i])*kdelta([b],[j])*kdelta([c],[k])+kdelta([a],[k])*kdelta([b],[i])*kdelta([c],[j])+kdelta([a],[j])*kdelta([b],[k])*kdelta([c],[i]))/3;
+
+if %=0 then true else _error:_error +1;
+
+remsym(cyc3,3,0);
+
+/* [wxMaxima: section start ]
+Take variations of metric w.r.t the metric
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Test
+diff_canonicalize is true in MacSyma
+Needs to be all permutations
+   [wxMaxima: subsect end   ] */
+
+
+("Test 21  variations of metric w.r.t the metric")$
+
+ishow(('diff(g([],[i,j]),g([a,b],[]))+'diff(g([],[i,j]),g([b,a],[])))/2)$
+
+ishow(ev(%,diff))$
+
+ratsimp(%+ (+(g([],[i,a])*g([],[j,b]))+g([],[i,b])*g([],[j,a]))/2);
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Take variations of the determinant of metric w.r.t the metric
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 22 variations of sqrt(-determinant) of metric w.r.t the metric")$
+
+ishow('diff(sqrt(abs(determinant(g))),g([a,b])))$
+
+root:rootscontract(sqrt(abs(determinant(g))));        /* get rid of the abs function */
+
+("diff  the determinant squared root to the 4th")$
+
+rootdiff:ishow(rootscontract(diff(root,g([a,b]))))$
+
+/* [wxMaxima: hide output   ] */
+("replace the determinant squared and simplify")$
+
+rootdiff:subst([determinant(g)^2=_xx],rootdiff);
+
+("restore the determinant^2")$
+
+ishow(subst([_xx=determinant(g)^2],rootdiff))$ /* result */
+
+%-(g([],[a,b])*sqrt(abs(determinant(g))))/2;  /* check */
+
+if %=0 then true else _error:_error +1;
+
+kill(root,rootdiff);
+
+/* [wxMaxima: section start ]
+Take variations of the determinant of metric w.r.t the metric
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 22 variations of determinant of metric w.r.t the metric")$
+
+root:ishow('diff(determinant(g),g([a,b])))$
+
+("diff  the determinant")$
+
+ishow(ev(root,diff))$
+
+rat(%-(determinant(g)*g([],[a,b])));  /* check */
+
+if %=0 then true else _error:_error +1;
+
+kill(root);
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 23")$
+
+ishow('diff(determinant(g),g([],[a,b])))$
+
+ishow(ev(%,diff))$
+
+ratsimp(%-(-determinant(g)*g([a,b],[])));
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Variations of frame fields
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 24 Variations of frame fields")$
+
+ishow('diff(ifr([b],[j]),ifr([a],[i])))$
+
+ishow(ev(%,diff))$
+
+%-kdelta([b],[a])*kdelta([i],[j]);
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test
+need to define the variation because of invert
+   [wxMaxima: section end   ] */
+
+
+("Test 25  Need to define variation because of one is the invert of the other")$
+
+depends(ifri,ifr);
+
+ishow('diff(ifri([j],[b]),ifr([a],[i])))$
+
+matchdeclare([_a,_b,_i,_j],atom);
+tellsimpafter('diff(ifri([_j],[_b]),ifr([_a],[_i])),-ifri([_i],[_b])*ifri([_j],[_a]));
+
+ishow('diff('ifri([j],[b]),ifr([a],[i])))$
+
+ishow(diff(ifri([j],[b]),ifr([a],[i])))$
+
+%-(-ifri([i],[b])*ifri([j],[a]));
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 26")$
+
+ishow('diff(determinant(ifr),ifr([a],[i])))$
+
+tellsimpafter('diff(determinant(ifr),ifr([a],[i])),ifri([i],[a])*determinant(ifr));
+
+ishow(diff(determinant(ifr),ifr([a],[i])))$
+
+%-ifri([i],[a])*determinant(ifr);
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 27")$
+
+ishow('diff(determinant(ifri),ifr([a],[i])))$
+
+tellsimpafter('diff(determinant(ifri),ifr([a],[i])),-ifri([i],[a])*determinant(ifri));
+
+disprule(derivativerule3);
+
+ishow(diff(determinant(ifri),ifr([a],[i])))$
+
+%-(-ifri([i],[a])*determinant(ifri));
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Variations of expressions with derivatives
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 28 Variations of expressions with derivatives")$
+
+ishow('diff(t([i],[]),t([a],[],p)))$
+
+ishow(ev(%,diff))$
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 29")$
+
+ishow('diff(t([i],[],q),t([a],[])))$
+
+ishow(ev(%,diff))$
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 30")$
+
+ishow('diff(t([i],[],q),t([a],[],p)))$
+
+ishow(ev(%,diff))$
+
+%-kdelta([i],[a])*kdelta([q],[p]);
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is true
+Needs to be all permutations
+   [wxMaxima: section end   ] */
+
+
+("Test 31 Permutations again")$
+
+ishow(('diff(t([i],[],r,s),t([a],[],p,q))+'diff(t([i],[],r,s),t([a],[],q,p)))/2)$
+
+ishow(ev(%,diff))$
+
+%-(kdelta([i],[a])*kdelta([r],[p])*kdelta([s],[q])+kdelta([i],[a])*kdelta([r],[q])*kdelta([s],[p]))/2;
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is false
+No permutations if false
+   [wxMaxima: section end   ] */
+
+
+("Test 32")$
+
+ishow(('diff(t([i],[],r,s),t([a],[],p,q))+0*'diff(t([i],[],r,s),t([a],[],q,p)))/1)$
+
+ishow(ev(%,diff))$
+
+%-kdelta([i],[a])*kdelta([r],[p])*kdelta([s],[q]);
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test diff_canonicalize is false
+No permutations if false
+   [wxMaxima: section end   ] */
+
+
+("Test 33")$
+
+ishow('diff(t([i],[],q)*a([],[i]),t([a],[])))$
+
+ishow(ev(%,diff))$
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test
+Variation_deriv_degree:1 Macsyma has no help telling what this flag does.
+The variation_deriv_degree:1 is the Euler-Lagrange Equation.
+   [wxMaxima: section end   ] */
+
+
+("Test 34 Macsyma flag variation_deriv_degree:1 defines use Euler-Lagrange Equation
+First term is the same but second term is minus coordinate derivative of tensor and the coordinate")$
+
+coord(c);
+
+ishow('diff(t([i],[],q)*u([],[i]),t([a],[]))-'idiff('diff(t([i],[],q)*u([],[i]),t([a],[],c)),c))$
+
+ishow(rename(ev(%,diff,idiff)))$
+
+%+kdelta([%1],[a])*u([],[%1],%2)*kdelta([q],[%2]);
+
+if %=0 then true else _error:_error +1;
+
+remcoord(c);
+
+/* [wxMaxima: section start ]
+Test
+Variation_deriv_degree:1 Macsyma has no help telling what this flag does.
+The variation_deriv_degree:1 is the Euler-Lagrange Equation.
+First define the result.
+   [wxMaxima: section end   ] */
+
+
+("Test 35 Euler-Lagrange")$
+
+coord(x);
+
+result:ishow(canform(rename(contract(-t([%1],[],%2,%3)*g([],[%1,a])*kdelta([%4],[%2])*g([],[%4,%3])
+                        -t([%1],[],%2)*g([],[%1,a],%3)*kdelta([%4],[%3])*g([],[%4,%2])
+                        -kdelta([%1],[a])*t([],[%1],%2)*g([],[%2,%4],%3)*kdelta([%4],[%3])
+                       -kdelta([%1],[a])*t([],[%1],%2,%3)*g([],[%3,%4])*kdelta([%4],[%2])
+                       -t([%1],[],%2)*g([],[%1,a])*kdelta([%3],[%4])*g([],[%3,%2],%4)))))$
+
+/* [wxMaxima: subsect start ]
+Here is the Euler-Lagrange equation
+   [wxMaxima: subsect end   ] */
+
+
+("Euler-Lagramge equation")$
+
+ishow('diff(t([i],[],q)*t([],[i],p)*g([],[p,q]),t([a],[]))-'idiff('diff(t([i],[],q)*t([],[i],p)*g([],[p,q]),t([a],[],x)),x))$
+
+/* [wxMaxima: subsect start ]
+Load components for t(_p^i) so it can do the derivative
+Save it as a derivative rule
+Find out the derivative of g(^i%1)*t(_%1,p) to g(^i%1)*kdelta(_%1^a)*kdelta(_p^m)
+   [wxMaxima: subsect end   ] */
+
+
+("Define a contravariant derivative in both terms")$
+
+components(t([],[i],p),g([],[i,j])*t([j],[],p));
+
+ishow(rename(t([],[i],p)))$
+
+ishow(contract(rename(diff(%,t([a],[],m)))))$  /* use for the derivative rule below */
+
+remcomps(t);
+
+remcoord(x);
+
+/* [wxMaxima: subsect start ]
+Make a rule to replace the two derivatives
+   [wxMaxima: subsect end   ] */
+
+
+matchdeclare([_i,_p,_a,_m,_q],atom);
+
+tellsimpafter('diff(t([],[i],p),t([a],[],m)),g([],[i,a])*kdelta([p],[m]));
+
+tellsimpafter('diff(t([],[i],p)*g([],[p,q])*t([i],[],q),t([a],[])),0);
+
+disprule(derivativerule4,derivativerule5)$
+
+/* [wxMaxima: subsect start ]
+Test derivative
+   [wxMaxima: subsect end   ] */
+
+
+ishow(diff(t([],[i],p),t([a],[],m)))$
+
+/* [wxMaxima: subsect start ]
+Now do the Euler-Lagrange Equation. The first diff term is zero.
+   [wxMaxima: subsect end   ] */
+
+
+coord(m);
+
+re:ishow(contract('diff(t([i],[],q)*t([],[i],p)*g([],[p,q]),t([a],[]))-'idiff(diff(t([i],[],q)*t([],[i],p)*g([],[p,q]),t([a],[],m)),m)))$
+
+ishow(contract(ev(re,idiff)))$
+
+ishow(contract(canform(contract(rename(%)))))$
+
+ishow(%-result)$
+
+if %=0 then true else _error:_error +1;
+
+remcoord(m);
+
+/* [wxMaxima: section start ]
+Variation with respect to coordinates is indicial differentiation
+Test
+   [wxMaxima: section end   ] */
+
+
+coord(x);
+
+("Test 36  This takes some fudging to get the answer")$
+
+ishow('idiff(t([j],[i]),x([],[k])))$  /* the tensor needs to be replaced with the k as coordinate */
+
+("Replace the x^k with just k and use idiff")$
+
+ishow(idiff(t([j],[i]),k))$
+
+ishow(%-t([j],[i],k))$
+
+if %=0 then true else _error:_error +1;
+
+remcoord(x);
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 37")$
+
+ishow('diff(t([j],[i]),x([k])))$
+
+("Use g so it can take the derivative of contravariant tensor")$
+
+components(t([j],[i]),g([],[i,m])*t([m,j],[]));     /* it needs components define to do the lowering of index */
+
+dd:ishow(rename(idiff(t([j],[i]),k)))$
+
+("flush out the extra derivative from answer")$
+
+ishow(flushd(dd,g))$                                          /* flush the extra term g that has a derivative */
+
+ishow(%-g([],[i,%1])*t([%1,j],[],k))$
+
+if %=0 then true else _error:_error +1;
+
+remcomps(t);
+
+/* [wxMaxima: section start ]
+Ivariation Examples from Macsyma
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 38")$
+
+ishow('diff(tt([i]),tt([a])))$
+
+ishow(diff(tt([i]),tt([a])))$
+
+ishow(%-kdelta([i],[a]))$
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 39")$
+
+ishow('diff(baz*tt([i],[])*ss([j],[]),tt([a],[])))$
+
+ishow(diff(baz*tt([i],[])*ss([j],[]),tt([a],[])))$
+
+ishow(%-baz*kdelta([i],[a])*ss([j],[]))$
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 40")$
+
+ishow('diff(tt([i],[k]),tt([a],[b])))$
+
+ishow(diff(tt([i],[k]),tt([a],[b])))$
+
+ishow(%-kdelta([b],[k])*kdelta([i],[a]))$
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 41")$
+
+ishow('diff(tt([i],[])*ss([j],[i]),tt([a])))$
+
+ishow(rename(diff(tt([i],[])*ss([j],[i]),tt([a]))))$
+
+ishow(%-kdelta([%1],[a])*ss([j],[%1]))$
+
+if %=0 then true else _error:_error +1;
+
+/* [wxMaxima: section start ]
+Done
+   [wxMaxima: section end   ] */
+
+
+("Done")$
+
+/* [wxMaxima: subsect start ]
+Test symmetry components using kdels
+   [wxMaxima: subsect end   ] */
+
+
+("Test symmetry components using kdels")$
+
+remcomps(s);
+
+decsym(g,2,0,[sym(all)],[])$
+decsym(g,0,2,[],[sym(all)])$
+dispsym(g,2,0);
+dispsym(g,0,2);
+
+/* [wxMaxima: subsect start ]
+Load components
+   [wxMaxima: subsect end   ] */
+
+
+("Load components")$
+
+components(s([a,b],[]),kdels([a,b],[u,v])*g([u,v],[])/2);
+components(s([],[a,b]),kdels([u,v],[a,b])*g([],[u,v])/2);
+
+showcomps(canform(contract(canform(s([b,a],[])))));
+
+ishow(s([a,b]))$
+
+ishow(s([b,a]))$
+
+ishow(canform(rename(%th(2)-%th(1))))$
+
+if %=0 then true else _error:_error +1;
+
+ishow(contract(canform(rename(s([1,2])))))$
+
+ishow(canform(contract(%)))$ /* this is reduced because of g symmetry */
+
+ishow(canform(%-g([1,2])))$
+
+if %=0 then true else _error:_error +1;
+
+remcomps(s);
+
+dispsym(g,2,0);
+
+dispsym(g,0,2);
+
+_error;
+
+version:"05-Jan-2026";
+
+("version 05-Jan-2026")$
+
+
