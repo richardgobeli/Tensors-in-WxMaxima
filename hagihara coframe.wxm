@@ -1905,3 +1905,4 @@ cframe_flag:true;
 
 /* Old versions of Maxima abort on loading files that end in a comment. */
 "Created with wxMaxima 26.01.0-DevelopmentSnapshot"$
+
