@@ -1,0 +1,1018 @@
+/* [wxMaxima: title   start ]
+Find the Hagihara frame that defines
+an orbit in the Schwarzschild metric 
+and in the Gullstrand–Painlevé metric.
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: section start ]
+Setting up
+   [wxMaxima: section end   ] */
+
+
+("Find the Hadihara frame that defines orbit in schwarzschild metric.  Setting up")$
+
+if get('ctensor,'version)=false then load(ctensor_r1);
+
+get('ctensor,'version);
+
+if get('itensor,'version)=false then load(itensor);
+
+get('itensor,'version);
+
+imetric(g);
+
+ctrgsimp:true$
+cframe_flag:true$
+verbose:true$
+ratfac:true$
+ratchristof:true$
+derivabbrev:false$
+
+/* [wxMaxima: subsect start ]
+Use square brackets for matrices
+   [wxMaxima: subsect end   ] */
+
+
+("Use square brackets for matrices")$
+
+lmxchar:"["$rmxchar:"]"$
+
+/* [wxMaxima: section start ]
+Enter exterior Schwarzschild metric with frames
+   [wxMaxima: section end   ] */
+
+
+("Enter exterior Schwarzschild metric with frames")$
+
+ct_coordsys(exteriorschwarzschild);
+
+cmetric(false);
+
+lg;
+
+assume(c>0);
+declare(c,constant);
+
+facts(c);
+
+("Dummy coordinate definition
+list:[equations,[coordinates]]    ")$
+
+list:[t,r,theta,phi,[t,r,theta,phi]];
+
+("Transform the exteior Schwarzschild coframe to the same coordinates")$
+
+fri:ctransformfrilist(fri,list);
+
+/* [wxMaxima: subsect start ]
+Setup variable limits in exterior Schwarzschild metric.
+   [wxMaxima: subsect end   ] */
+
+
+assume(m>0,r>0);facts(r);facts(m);
+
+cmetric(true);
+
+fr;
+
+christof(mcs);
+
+/* [wxMaxima: subsect start ]
+Find velocity of coframe fri in Schwarzschild coordinates.
+Fri being similar to diagonal metric square root.
+This is a static shell frame.
+   [wxMaxima: subsect end   ] */
+
+
+("Find velocity of coframe fri in Schwarzschild coordinates.
+Fri being similar to diagonal metric square root.
+This is a static shell frame.")$
+
+("set up rest speed uv1 in frame ")$
+
+uv1[1]:c$uv1[2]:0$uv1[3]:0$uv1[4]:0$
+
+listarray(uv1);
+
+kill(ufv)$
+
+("find the speed in schwarzschild coordinates")$
+
+iufv:ufv([-μ],[])=uv1([],[a])*frame([a],[μ])$
+
+ishow(iufv)$
+
+cufv:ic_convert(iufv);
+
+ev(cufv,frame:fr);
+
+/* [wxMaxima: subsect start ]
+Static shell frame 4 velocity in Schwarzschild
+coordinates has no spatial components.
+   [wxMaxima: subsect end   ] */
+
+
+("Static shell frame 4 velocity in Schwarzschild
+coordinates has no spatial components.")$
+
+ufv[1]:ufv[1],rootscontract$
+
+listarray(ufv);
+
+kill(ufvm);
+
+iufvm:ufvm([],[])=g([μ,ν],[])*ufv([],[μ])*ufv([],[ν])$ishow(iufvm)$
+
+cufvm:ic_convert(iufvm);
+
+/* [wxMaxima: subsect start ]
+Magnitude is constant -c^2=-1
+   [wxMaxima: subsect end   ] */
+
+
+("Magnitude is constant -c^2=-1")$
+
+ev(cufvm);
+
+/* [wxMaxima: subsect start ]
+Find the 4 acceleration in the frame.
+   [wxMaxima: subsect end   ] */
+
+
+("Find the 4 acceleration in the frame using schwarzschild coordinates.")$
+
+uf[1]:c$uf[2]:0$uf[3]:0$uf[4]:0$
+
+listarray(uf);
+
+kill(ua)$
+
+iua:ua([-μ],[])=uf([],[λ])*covdiff(uf([],[μ]),λ)$
+
+ishow(iua)$
+
+cua:ic_convert(iua);
+
+ev(cua);
+
+/* [wxMaxima: subsect start ]
+Exterior Schwarzschild frame 4 acceleration
+Components are the effective gravity for stationary observer
+directed downward.
+   [wxMaxima: subsect end   ] */
+
+
+("Exterior Schwarzschild frame 4 acceleration
+Components are the effective gravity for stationary observer
+directed downward.")$
+
+listarray(ua);
+
+/* [wxMaxima: subsect start ]
+Frame metric is lfg gives magnitude squared.
+   [wxMaxima: subsect end   ] */
+
+
+ua[2]*ua[2]*lfg[2,2];
+
+/* [wxMaxima: subsect start ]
+Magnitude of d^2(r)/dτ^2 as function of r
+   [wxMaxima: subsect end   ] */
+
+
+num(sqrt(%))/(sqrt(expand(denom(%)/r^4))*r^2);
+
+/* [wxMaxima: section start ]
+Find a coframe that is free falling and in a circular 
+orbit, which is the Hagihara observers.
+Stable orbits would be r > 6*m. 
+Unstable orbits 3*m < r < 6*m because of 
+angluar momentum and energy.
+   [wxMaxima: section end   ] */
+
+
+("Find a coframe that is free falling and in a circular 
+orbit, which is the Hagihara observers.
+Stable orbits would be r > 6*m. 
+Unstable orbits 3*m < r < 6*m because of 
+angluar momentum and energy.")$
+
+lg;
+
+assume(cc>0);
+
+ratfac:true;
+
+depends([aa,bb,cc,dd],ct_coords);
+
+("Put the boost in the phi coordinate
+set up the mixed fri coframe.")$
+
+mfri:zeromatrix(dim,dim)$mfri[1,1]:aa$mfri[1,4]:-bb$mfri[4,1]:-cc$mfri[2,2]:sqrt(r/(r-2*m))$mfri[3,3]:r$mfri[4,4]:dd$
+
+ishow(frii([a,μ],[])=lfgg([a,b],[])*mfrii([μ],[b]))$
+
+fri:lfg.mfri;
+
+("calculate the new frame dependant fr.  
+    It shows the boost in phi coordinate.")$
+
+frr:ratsimp(transpose(invert(ufg.fri)));
+
+/* [wxMaxima: subsect start ]
+Start with this coframe and it should get Schwarzschild metric back.
+   [wxMaxima: subsect end   ] */
+
+
+("Start with this coframe and it should get Schwarzschild metric back.")$
+
+fri;
+
+/* [wxMaxima: subsect start ]
+Get the metric from this coframe
+   [wxMaxima: subsect end   ] */
+
+
+("Get the metric from this coframe")$
+
+lgg:transpose(lfg . fri) . fri,ratsimp;
+
+/* [wxMaxima: subsect start ]
+Equate to the exterior Schwarzschild metric.
+   [wxMaxima: subsect end   ] */
+
+
+("Equate to the exterior Schwarzschild metric.")$
+
+eq1:lgg[1,4]=lg[1,4];
+
+eq2:lgg[4,4]=lg[4,4];
+
+eq3:lgg[1,1]=lg[1,1];
+
+("solve for aa,bb,dd")$
+
+sol:solve([eq1,eq2,eq3],[aa,bb,dd]);
+
+("use solution 1 where aa,bb,dd are positive")$
+
+saa1:sol[1][1];sbb1:sol[1][2];sdd1:sol[1][3];
+
+/* [wxMaxima: subsect start ]
+Substitute back in and there is still one unknown cc(r)
+Solve for 4 acceleration to be zero to get cc(r).
+   [wxMaxima: subsect end   ] */
+
+
+("Substitute back in and there is still one unknown cc(r)
+Solve for 4 acceleration to be zero to get cc(r).")$
+
+mfri:zeromatrix(dim,dim)$mfri[1,1]:rhs(saa1)$mfri[1,4]:-rhs(sbb1)$mfri[4,1]:-cc$mfri[2,2]:sqrt(lg[2,2])$mfri[3,3]:r$mfri[4,4]:rhs(sdd1)$
+
+fri:lfg.mfri;
+
+/* [wxMaxima: subsect start ]
+Equation for metric from coframe.
+   [wxMaxima: subsect end   ] */
+
+
+("Equation for metric from coframe.")$
+
+transpose(lfg . fri) . fri,factor;
+
+/* [wxMaxima: subsect start ]
+This coframe gives the exterior Schwarzschild metric.
+   [wxMaxima: subsect end   ] */
+
+
+("This coframe gives the exterior Schwarzschild metric.")$
+
+cmetric(true);
+
+lg:lg,rootscontract;
+
+christof(mcs);
+
+/* [wxMaxima: subsect start ]
+Find the 4 acceleration in the Hagihara free falling frame to get cc(r).
+Start with orbiting observer in the coframe field.
+   [wxMaxima: subsect end   ] */
+
+
+("Find the 4 acceleration in the Hagihara free falling frame to get cc(r).
+Start with orbiting observer in the coframe field.")$
+
+uf[1]:c$uf[2]:0$uf[3]:0$uf[4]:0$
+
+listarray(uf);
+
+kill(ua);
+
+iua:ua([-μ],[])=uf([],[λ])*covdiff(uf([],[μ]),λ)$
+
+ishow(iua)$
+
+cua:ic_convert(iua);
+
+ev(cua,factor);
+
+/* [wxMaxima: subsect start ]
+Hagihara coframe 4 acceleration in radial direction
+is set to zero so it is free falling.
+   [wxMaxima: subsect end   ] */
+
+
+("Hagihara coframe 4 acceleration in radial direction
+is set to zero so it is free falling.")$
+
+for i thru dim do ua[i]:ev(ua[i]);
+
+listarray(ua);
+
+eq5:num(ua[2])=0;
+
+factor(%);
+
+scc2:solve(eq5,cc^2)[1];
+
+("found the missing cc factor to make radial acceleration zero")$
+
+scc1:sqrt(scc2),factor;
+
+/* [wxMaxima: subsect start ]
+Substitute factors back in the Hagihara coframe for a solution.
+   [wxMaxima: subsect end   ] */
+
+
+("Substitute factors back in the Hagihara coframe for a solution.")$
+
+ratfact:false;
+
+mfri:zeromatrix(dim,dim)$mfri[1,1]:ev(rhs(saa1),scc1)$mfri[1,4]:-ev(rhs(sbb1),scc1)$
+mfri[4,1]:-rhs(scc1)$mfri[2,2]:sqrt(lg[2,2])$mfri[3,3]:r$mfri[4,4]:ev(rhs(sdd1),scc1,factor)$
+
+fri:lfg.mfri,radcan,ratsimp;
+
+cmetric(true);
+
+/* [wxMaxima: section start ]
+Found the free falling Schwarzschild vacuum Hagihara frame and Hagihara coframe field.
+   [wxMaxima: section end   ] */
+
+
+("Found the free falling Schwarzschild vacuum Hagihara frame and Hagihara coframe field.")$
+
+fr:ratsimp(fr),factor;
+
+fri;
+
+/* [wxMaxima: section start ]
+Lowered local a index of mfri gives lfri = fri_a_μ.
+is already lowered.
+   [wxMaxima: section end   ] */
+
+
+("Lowered local a index of mfri gives lfri = fri_a_μ.
+is already lowered.")$
+
+lfri:ratsimp(fri);
+
+/* [wxMaxima: subsect start ]
+Lowering coordinate index of fr_a^μ gives lfr_a_μ and is the same as fri_a_μ
+   [wxMaxima: subsect end   ] */
+
+
+("Lowering coordinate index of fr_a^μ gives lfr_a_μ and is the same as fri_a_μ")$
+
+lfr:ratsimp(fr.lg);
+
+is(lfr=lfri);
+
+frii:copymatrix(fri)$
+
+/* [wxMaxima: subsect start ]
+Get metric from coframe
+   [wxMaxima: subsect end   ] */
+
+
+("Get metric from coframe")$
+
+lgg:transpose(lfg . fri) . fri,factor,ratsimp;
+
+/* [wxMaxima: subsect start ]
+It gives the original metric.  This is also from coframe.
+   [wxMaxima: subsect end   ] */
+
+
+("It gives the original metric.  This is also from coframe.")$
+
+cmetric(true);
+
+christof(mcs);
+
+/* [wxMaxima: subsect start ]
+Find the 4 acceleration in the Hagihara coframe.
+   [wxMaxima: subsect end   ] */
+
+
+("Find the 4 acceleration in the Hagihara coframe.")$
+
+uf[1]:c$uf[2]:0$uf[3]:0$uf[4]:0$
+
+listarray(uf);
+
+kill(ua)$
+
+iua:ua([-μ],[])=uf([],[λ])*covdiff(uf([],[μ]),λ)$
+
+ishow(iua)$
+
+cua:ic_convert(iua);
+
+ev(cua);
+
+/* [wxMaxima: subsect start ]
+Hagihara coframe 4 acceleration is zero so it is free falling on the orbit theta = π/2.
+components
+   [wxMaxima: subsect end   ] */
+
+
+("Hagihara coframe 4 acceleration is zero so it is free falling on the orbit theta = π/2.
+components")$
+
+listarray(ua);
+
+/* [wxMaxima: subsect start ]
+Set theta = π/2 for equator orbit
+   [wxMaxima: subsect end   ] */
+
+
+("Set theta = π/2 for equator orbit")$
+
+for i thru dim do ua[i]:trigsimp(ev(ua[i],theta=π/2,eval,trigexpand));
+
+("Total acceleration is zero")$
+
+listarray(ua);
+
+/* [wxMaxima: subsect start ]
+Find the 4 velocity of Hagihara coframe in Schwarzschild coordinates.
+   [wxMaxima: subsect end   ] */
+
+
+("Find the 4 velocity of Hagihara coframe in Schwarzschild coordinates.")$
+
+uf[1]:c$uf[2]:0$uf[3]:0$uf[4]:0$
+
+listarray(uf);
+
+kill(u)$
+
+iu:u([],[λ])=uf([],[a])*frame([a],[λ])$
+
+ishow(iu)$
+
+cu:ic_convert(iu);
+
+ev(cu,frame=fr);
+
+for i thru dim do u[i]:ev(ratsimp(u[i]),rootscontract);
+
+listarray(u);
+
+/* [wxMaxima: subsect start ]
+Hagihara coframe 4 velocity components in Schwarzschild coordinates
+on orbit theta = π/2.  Stable circular orbit is only r > 6*m.
+   [wxMaxima: subsect end   ] */
+
+
+("Hagihara coframe 4 velocity components in Schwarzschild coordinates
+on orbit theta = π/2.  Stable circular orbit is only r > 6*m.")$
+
+u[4]:trigsimp(ev(u[4],rootscontract,theta=π/2));
+
+sqrt(trigsimp(ev(u[4]*u[4]*lg[4,4],theta=π/2)));
+
+listarray(u);
+
+kill(um);
+
+ium:um([],[])=u([],[a])*u([],[b])*g([a,b],[])$
+
+ishow(ium)$
+
+cum:ic_convert(ium);
+
+/* [wxMaxima: subsect start ]
+Total frame 4 velocity squared  u^2 is -c^2=-1
+   [wxMaxima: subsect end   ] */
+
+
+ev(cum,factor);
+
+ev(%,theta=π/2,factor);
+
+/* [wxMaxima: section start ]
+The energy E = -m*g[1,1]*U[1]=P_1 and
+angular momentum L = m*g[4,4]*U[4]=P_4.
+3rd invariant is ε=line element(τ).
+   [wxMaxima: section end   ] */
+
+
+("The energy E = -m*g[1,1]*U[1]=P_1 and
+angular momentum L = m*g[4,4]*U[4]=P_4.
+3rd invariant is ε=line element(τ).")$
+
+energy:E=-m*lg[1,1]*'diff(ct_coords[1],tau)^1;
+dtdτ:solve(energy,'diff(t,tau)^1)[1];
+
+angularm:m*lg[4,4]*'diff(ct_coords[4],tau)^1=L;
+trigsimp(ev(angularm,theta=π/2));
+dφpτ:trigsimp(ratsimp(subst([theta=π/2],solve(angularm,'diff(ct_coords[4],tau)^1)[1])));
+
+/* [wxMaxima: section start ]
+Calculate the -invariant line element
+and solve for Energy/2.
+   [wxMaxima: section end   ] */
+
+
+("Calculate the -invariant line element
+and solve for Energy/2.    ")$
+
+inv:-ε=lg[1,1]*'diff(ct_coords[1],tau)^2+lg[4,4]*'diff(ct_coords[4],tau)^2+lg[2,2]*'diff(ct_coords[2],tau)^2
++lg[3,3]*'diff(ct_coords[3],tau)^2;
+inv:trigsimp(ev(inv,theta=π/2,'diff(theta,tau)=0));
+inv:trigsimp(ev(inv,theta=π/2,dtdτ,dφpτ,factor,'diff(r,tau)=0,'diff(theta,tau)=0));
+inv:ev(solve(inv,E^2)[1]/2,expand);
+
+/* [wxMaxima: subsect start ]
+Effective potential.
+   [wxMaxima: subsect end   ] */
+
+
+("Effective potential.")$
+
+veff:rhs(inv);
+
+func(ε,L,c,m,r):=''veff;
+
+("find the minimum of the potential as a function of r")$
+
+func(1,L,1,m,r);
+
+diff(%,r);
+
+solve(%,r);
+
+rmim:%[2];
+
+subst([L=sqrt(12*m^4)],%);
+
+/* [wxMaxima: subsect start ]
+When L = sqrt(12*m^4) the minimum stable orbit 
+radius is 6*m.
+   [wxMaxima: subsect end   ] */
+
+
+("When L = sqrt(12*m^4) the minimum stable orbit 
+radius is 6*m.")$
+
+func(1,sqrt(12*m^4),1,m,r);
+
+minvariation:diff(%,r)=0;
+
+/* [wxMaxima: subsect start ]
+Solved for minimum stable orbit
+   [wxMaxima: subsect end   ] */
+
+
+("Solved for minimum stable orbit")$
+
+float(solve(minvariation,r)[1]);
+
+/* [wxMaxima: subsect start ]
+Plot the types of orbits possible because of potential.
+   [wxMaxima: subsect end   ] */
+
+
+("Plot the types of orbits possible because of potential.
+minimumis at L= sqrt(12) about 3.464 ")$
+
+float(sqrt(12));
+
+wxplot2d([func(1,3.35,1,1,r),func(1,sqrt(12),1,1,r),func(1,3.6,1,1,r),func(1,sqrt(12),1,1,6)],[r,3.5,10],[grid2d,true]);
+
+/* [wxMaxima: subsect start ]
+Components of 4 velocity squared is -c^2
+   [wxMaxima: subsect end   ] */
+
+
+("Components of 4 velocity squared is -c^2")$
+
+listarray(u);
+
+ums2[1]:sqrt(u[1]*u[1]*-lg[1,1]);ums2[4]:trigsimp(subst([theta=π/2],sqrt(u[4]*u[4]*lg[4,4])));
+
+trigsimp(subst([theta=π/2],-ums2[1]^2+ums2[4]^2));
+
+omega1:ums2[4];
+
+("Frame speed in orbit at r=6*m")$
+
+vv:ratsimp(ums2[4]/ums2[1])$
+ev(vv*c,r=6*m);
+
+vvm:rootscontract(subst([r=rm*m],vv));
+
+wxplot2d([vvm],[rm,2.9,10],[grid2d,true],[xlabel,"r=r*m"],[ylabel,"C"],[title,"Speed in orbit as ratio of C"]);
+
+/* [wxMaxima: subsect start ]
+The energy is P_1 * dt/dτ.
+   [wxMaxima: subsect end   ] */
+
+
+("The energy is P_1 * dt/dτ.")$
+
+depends(r,t);
+
+energy:E=-m*lg[1,1]*'diff(t,tau);
+
+/* [wxMaxima: subsect start ]
+The angluar momentum is P_4*dφ/dτ.
+   [wxMaxima: subsect end   ] */
+
+
+("The angluar momentum is P_4*dφ/dτ.")$
+
+angularm:L=m*lg[4,4]*'diff(phi,tau);
+
+/* [wxMaxima: subsect start ]
+Hagihara coframe 4 velocity, dφ/dτ*dτ/dt component magnitude by
+using Schwarzschild coordinate metric for scale.
+   [wxMaxima: subsect end   ] */
+
+
+("Hagihara coframe 4 velocity, dφ/dτ * dτ/dt component magnitude by
+using Schwarzschild coordinate metric for scale.")$
+
+assume(phi_t>0);
+
+assume(v>0)$facts(v);
+
+c*sqrt(u[4]^2*lg[4,4]/(u[1])^2/-lg[1,1]);
+
+omega:trigsimp(ev(%,theta=π/2));
+
+/* [wxMaxima: subsect start ]
+The omega_t at radius r
+   [wxMaxima: subsect end   ] */
+
+
+("The omega_t at radius r")$
+
+phi_t=omega;
+
+rfv:solve(%,r)[1];
+
+cframe_flag:false;
+
+cmetric(false);
+
+ug:ug,ratsimp;
+
+cgeodesic(false)$for ii thru dim do block([theta:π/2,r:6*m],geod[ii]:ev(geod[ii],diff,ratsimp));
+
+for ii thru dim do ldisplay(geod[ii]);
+
+cframe_flag:true;
+
+/* [wxMaxima: section start ]
+Find Gullstrand–Painlevé Coordinate Chart.
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Start with exterior Schwarzschild Metric.
+   [wxMaxima: subsect end   ] */
+
+
+("Find Gullstrand–Painlevé Coordinate Chart.
+   Start with exterior Schwarzschild Metric. ")$
+
+lg;
+
+/* [wxMaxima: subsect start ]
+Find Gullstrand–Painlevé coordinates where time coordinate follows
+proper time and spatial slices are flat.  Time component of 4 velocity will be 1.
+Find function aaa(r) that is t= tr -aaa(r).
+   [wxMaxima: subsect end   ] */
+
+
+("Find Gullstrand–Painlevé coordinates where time coordinate follows
+proper time and spatial slices are flat.  Time component of 4 velocity will be 1.
+Find function aaa(r) that is t= tr -aaa(r).")$
+
+depends(aaa,r);
+
+list:[tr-aaa,r,theta,phi,[tr,r,theta,phi]];
+
+/* [wxMaxima: subsect start ]
+Transform the Schwarzschild metric.
+   [wxMaxima: subsect end   ] */
+
+
+("New coordinates tranform Schwarzschild metric")$
+
+lgg:ctransformlist(lg,list);
+
+/* [wxMaxima: subsect start ]
+Pick aaa(r) so lg[2,2]=1 this will make spatial slices flat.
+   [wxMaxima: subsect end   ] */
+
+
+("Pick aaa(r) so lg[2,2]=1 this will make spatial slices flat.")$
+
+eq1:lgg[2,2]=1;
+
+eq1:solve(eq1,diff(aaa,r)^2)[1],factor;
+
+eq1:sqrt(eq1);
+
+eq2:aaa='integrate(rhs(eq1),r),rootscontract;
+
+/* [wxMaxima: subsect start ]
+Transform equations for Gullstrand–Painlevé Coordinates from Schwarzschild
+Coordinates
+   [wxMaxima: subsect end   ] */
+
+
+("Transform equations for Gullstrand–Painlevé Coordinates from Schwarzschild
+Coordinates")$
+
+list:[tr-rhs(eq2),r,theta,phi,[tr,r,theta,phi]];
+
+lg;
+
+/* [wxMaxima: subsect start ]
+Transform the Exterior Schwarzschild metric to Gullstrand–Painlevé metric.
+   [wxMaxima: subsect end   ] */
+
+
+("Transform the Exterior Schwarzschild metric to Gullstrand–Painlevé metric.")$
+
+lg:ctransformlist(lg,list),rootscontract;
+
+fri;
+
+/* [wxMaxima: subsect start ]
+Transform the Hagihara coframe of the Schwarzschild metric.
+This is the new Hagihara coframe of the Gullstrand–Painlevé metric.
+   [wxMaxima: subsect end   ] */
+
+
+("Transform the Hagihara coframe of the Schwarzschild metric.
+This is the new Hagihara coframe of the Gullstrand–Painlevé metric.")$
+
+fri:ctransformfrilist(fri,list);
+
+/* [wxMaxima: subsect start ]
+Save old coordinates and update the new coordinates symbols
+of Gullstrand–Painlevé metric.
+   [wxMaxima: subsect end   ] */
+
+
+("Save old coordinates and update the new coordinates symbols
+of Gullstrand–Painlevé metric.")$
+
+old_ct_coords:ct_coords;
+
+ct_coords:list[dim+1];
+
+/* [wxMaxima: subsect start ]
+Show what the ctransformfrilist function does.
+Transform matrix for rank 2 tetrade field tensor.
+This only transforms the coordinate index.  The local index of field
+is flat and has no transformation. Show the tetrade transform matrix.
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: subsect start ]
+This transform does not replace coordinate symbols if changed.
+   [wxMaxima: subsect end   ] */
+
+
+("Show what the ctransformfrilist function does.
+Transform matrix for rank 2 tetrade field tensor.
+This only transforms the coordinate index.  The local index of field
+is flat and has no transformation. Show the tetrade transform matrix.")$
+
+("This transform does not replace coordinate symbols if changed.")$
+
+trm:zeromatrix(dim,dim)$for i thru dim do for j thru dim do
+trm[i,j]:diff(list[i],list[5][j]);
+
+("This transformation matrix base on the orginal fri and the new coords list.")$
+
+trm:trm,rootscontract;
+
+/* [wxMaxima: subsect start ]
+New Hagihara coframe does give Gullstrand–Painlevé metric as below.
+   [wxMaxima: subsect end   ] */
+
+
+("New Hagihara coframe does give Gullstrand–Painlevé metric as below.")$
+
+transpose(ufg.fri).fri,ratsimp,rootscontract;
+
+/* [wxMaxima: subsect start ]
+Find velocity of frame fr being Hagihara coframe of Gullstrand–Painlevé metric.
+   [wxMaxima: subsect end   ] */
+
+
+("Find velocity of frame fr being Hagihara coframe of Gullstrand–Painlevé metric.")$
+
+fr:transpose((ufg.fri)^^-1)$
+fr:ratsimp(fr),factor,rootscontract;
+
+/* [wxMaxima: subsect start ]
+Cmetric gives the frame fr, lg, and ug.
+   [wxMaxima: subsect end   ] */
+
+
+("Cmetric gives the frame fr, lg, and ug.")$
+
+cmetric(true);
+
+/* [wxMaxima: subsect start ]
+The frame needs to be simplified
+   [wxMaxima: subsect end   ] */
+
+
+("The frame needs to be simplified")$
+
+fr:ratsimp(fr),expand;
+
+/* [wxMaxima: subsect start ]
+This is the Christoffel symbols based on the new fri tetrade field
+   [wxMaxima: subsect end   ] */
+
+
+("This is the Christoffel symbols based on the new fri tetrade field")$
+
+christof(mcs);
+
+/* [wxMaxima: subsect start ]
+Start with frame 4 velocity of a fixed observer in the frame.
+   [wxMaxima: subsect end   ] */
+
+
+("Start with frame 4 velocity of a fixed observer in the frame.")$
+
+uv1[1]:c$uv1[2]:0$uv1[3]:0$uv1[4]:0$
+
+listarray(uv1);
+
+kill(ufv)$
+
+iufv:ufv([-μ],[])=uv1([],[a])*frame([a],[μ])$
+
+ishow(iufv)$
+
+cufv:ic_convert(iufv);
+
+ev(cufv,frame:fr);
+
+/* [wxMaxima: subsect start ]
+Hagihara frame 4 velocity in Gullstrand–Painlevé
+coordinates has no e_r component and only 
+a φ spatial component.
+   [wxMaxima: subsect end   ] */
+
+
+("Hagihara frame 4 velocity in Gullstrand–Painlevé
+coordinates has no e_r component and only 
+a φ spatial component.")$
+
+ufv[1]:ufv[1],rootscontract$  ufv[4]:ufv[4],theta=π/2,eval,rootscontract$
+
+listarray(ufv);
+
+/* [wxMaxima: section start ]
+Minium light orbit is where the speed in θ direction is 
+near c for the frame.  But frame speed component in
+Gullstrand–Painlevé coordinates is infinite and  time is also infinite.
+   [wxMaxima: section end   ] */
+
+
+("Minium light orbit is where the speed in θ direction is 
+near c for the frame.  But frame speed component in
+Gullstrand–Painlevé coordinates is infinite and  time is also infinite.")$
+
+sum(ufv[aa]*ufv[4]*lg[aa,4],aa,1,4);
+
+ufv[4]*ufv[4]*lg[4,4];
+
+(ev(%,theta=π/2,c=1,eval,trigexpand));
+
+ps:float(solve(%=10^15,r));
+
+/* [wxMaxima: subsect start ]
+This speed is big at the radius 3 m and rs = 2 m.
+So photo-sphere is at r = 1.5 rs.
+   [wxMaxima: subsect end   ] */
+
+
+("This speed is big at the radius 3 m and rs = 2 m.
+So photo-sphere is at r = 1.5 rs.")$
+
+subst([m=rs/2],ps);
+
+ufvm:matrix([ufv[1],0,0,ufv[4]]);
+
+("Calculate magnitude of ufvm")$
+
+ufvm.transpose(ufvm.lg);
+
+factor(%);
+
+subst([r=4*m,theta=π/2],%),trigexpand;
+
+/* [wxMaxima: subsect start ]
+Find the 4 acceleration in this frame using coordinate Christoffel symbols.
+   [wxMaxima: subsect end   ] */
+
+
+("Find the 4 acceleration in this frame using coordinate Christoffel symbols.")$
+
+uf[1]:c$uf[2]:0$uf[3]:0$uf[4]:0$
+
+listarray(uf);
+
+kill(ua)$
+
+iua:ua([-μ],[])=uf([],[λ])*covdiff(uf([],[μ]),λ)$
+
+ishow(iua)$
+
+cua:ic_convert(iua);
+
+ev(cua);
+
+/* [wxMaxima: subsect start ]
+Hagihara frame in Gullstrand–Painlevé coordinate  4 acceleration
+Components are the effective gravity for Hagihara observer.
+It is zero when theta = π/2, which is an orbit at the equator.
+   [wxMaxima: subsect end   ] */
+
+
+("Hagihara frame in Gullstrand–Painlevé coordinate  4 acceleration
+Components are the effective gravity for Hagihara observer.
+It is zero when theta = π/2, which is an orbit at the equator.")$
+
+listarray(ua);
+
+/* [wxMaxima: subsect start ]
+Frame metric is lfg
+   [wxMaxima: subsect end   ] */
+
+
+("Frame metric is lfg gives zero acceleration
+and θ = π/2")$
+
+ua[3]*ua[3]*lfg[3,3],theta=π/2,trigexpand;
+
+/* [wxMaxima: subsect start ]
+Magnitude of 4 acceleration needed d^2φ/dτ^2 as function of r
+This is the same acceleration at theta= 2*π that the orbit coframe for 
+Gullstrand–Painlevé metric.
+   [wxMaxima: subsect end   ] */
+
+
+("Magnitude of 4 acceleration needed d^2φ/dτ^2 as function of r
+This is the same acceleration at theta= 2*π that the orbit coframe for 
+Gullstrand–Painlevé metric.")$
+
+ev(sqrt(ua[3]),rootscontract);
+
+ev(%,theta=π/2,trigexpand);
+
+cframe_flag:false;
+
+cmetric(false);
+
+ug:ug,ratsimp;
+
+lg;
+
+cgeodesic(false)$for ii thru dim do block([theta:π/2,r:6*m],geod[ii]:ev(geod[ii],diff,ratsimp));
+
+("Geodesic in the Gullstrand–Painlevé coordinate")$
+
+for ii thru dim do ldisplay(geod[ii]);
+
+cframe_flag:true;
+
+("End")$
+
+
