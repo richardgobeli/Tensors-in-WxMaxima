@@ -5,6 +5,9 @@ and in the Gullstrand–Painlevé metric.
    [wxMaxima: title   end   ] */
 
 
+("This still needs some work on calculating the actual tangent speed in orbit 
+    and the ω of the orbit.");
+
 /* [wxMaxima: section start ]
 Setting up
    [wxMaxima: section end   ] */
@@ -54,14 +57,15 @@ lg;
 assume(c>0);
 declare(c,constant);
 
-facts(c);
+facts();
 
 ("Dummy coordinate definition
 list:[equations,[coordinates]]    ")$
 
-list:[t,r,theta,phi,[t,r,theta,phi]];
+list:[c*t,r,theta,phi,[t,r,theta,phi]];
 
-("Transform the exteior Schwarzschild coframe to the same coordinates")$
+("Transform the exteior Schwarzschild coframe to the same coordinates,
+but insert c in the equations.    ")$
 
 fri:ctransformfrilist(fri,list);
 
@@ -89,9 +93,9 @@ This is a static shell frame.
 Fri being similar to diagonal metric square root.
 This is a static shell frame.")$
 
-("set up rest speed uv1 in frame ")$
+("set up rest speed uv1 in frame = E/m E=m*c^2 ")$
 
-uv1[1]:c$uv1[2]:0$uv1[3]:0$uv1[4]:0$
+uv1[1]:m*c^2/m$uv1[2]:0$uv1[3]:0$uv1[4]:0$
 
 listarray(uv1);
 
@@ -120,20 +124,30 @@ ufv[1]:ufv[1],rootscontract$
 
 listarray(ufv);
 
-kill(ufvm);
-
-iufvm:ufvm([],[])=g([μ,ν],[])*ufv([],[μ])*ufv([],[ν])$ishow(iufvm)$
-
-cufvm:ic_convert(iufvm);
+("Energy of test particle at rest in frame.
+It is also stationary in Schwarzschild coordinates.")$
 
 /* [wxMaxima: subsect start ]
-Magnitude is constant -c^2=-1
+Energy m*c^2 at rest
    [wxMaxima: subsect end   ] */
 
 
-("Magnitude is constant -c^2=-1")$
+("Energy m*c^2 at rest")$
 
-ev(cufvm);
+kill(E1,E2,EnergyPerMassSquared)$
+
+E1:ishow(EnergyPerMassSquared([],[])=m^2*(-ufv1([],[i])*ufv1([],[j])*lgg([i,j],[])))$
+
+E2:ic_convert(E1);
+
+/* [wxMaxima: subsect start ]
+So m*g*dt/dτ = Energy only if stationary
+   [wxMaxima: subsect end   ] */
+
+
+("So m*g*dt/dτ = Energy/m only if stationary")$
+
+m*'diff(t,τ)=sqrt(ev(E2,ufv1:ufv,lgg:lg));
 
 /* [wxMaxima: subsect start ]
 Find the 4 acceleration in the frame.
@@ -142,7 +156,7 @@ Find the 4 acceleration in the frame.
 
 ("Find the 4 acceleration in the frame using schwarzschild coordinates.")$
 
-uf[1]:c$uf[2]:0$uf[3]:0$uf[4]:0$
+uf[1]:m*c^2/m$uf[2]:0$uf[3]:0$uf[4]:0$
 
 listarray(uf);
 
@@ -170,18 +184,11 @@ directed downward.")$
 listarray(ua);
 
 /* [wxMaxima: subsect start ]
-Frame metric is lfg gives magnitude squared.
+Frame metric is lg gives magnitude of acceleration.
    [wxMaxima: subsect end   ] */
 
 
-ua[2]*ua[2]*lfg[2,2];
-
-/* [wxMaxima: subsect start ]
-Magnitude of d^2(r)/dτ^2 as function of r
-   [wxMaxima: subsect end   ] */
-
-
-num(sqrt(%))/(sqrt(expand(denom(%)/r^4))*r^2);
+ua2:'diff(r,τ,2)=if sign(ua[2])=neg then -sqrt(ua[2]*ua[2]*lg[2,2]) else sqrt(ua[2]*ua[2]*lg[2,2]);
 
 /* [wxMaxima: section start ]
 Find a coframe that is free falling and in a circular 
@@ -303,7 +310,7 @@ Start with orbiting observer in the coframe field.
 ("Find the 4 acceleration in the Hagihara free falling frame to get cc(r).
 Start with orbiting observer in the coframe field.")$
 
-uf[1]:c$uf[2]:0$uf[3]:0$uf[4]:0$
+uf[1]:m*c^2/m$uf[2]:0$uf[3]:0$uf[4]:0$
 
 listarray(uf);
 
@@ -418,7 +425,7 @@ Find the 4 acceleration in the Hagihara coframe.
 
 ("Find the 4 acceleration in the Hagihara coframe.")$
 
-uf[1]:c$uf[2]:0$uf[3]:0$uf[4]:0$
+uf[1]:m*c^2/m$uf[2]:0$uf[3]:0$uf[4]:0$
 
 listarray(uf);
 
@@ -463,7 +470,7 @@ Find the 4 velocity of Hagihara coframe in Schwarzschild coordinates.
 
 ("Find the 4 velocity of Hagihara coframe in Schwarzschild coordinates.")$
 
-uf[1]:c$uf[2]:0$uf[3]:0$uf[4]:0$
+uf[1]:m*c^2/m$uf[2]:0$uf[3]:0$uf[4]:0$
 
 listarray(uf);
 
@@ -479,6 +486,8 @@ ev(cu,frame=fr);
 
 for i thru dim do u[i]:ev(ratsimp(u[i]),rootscontract);
 
+("This is speed components of the Hagihara frame in Schwarzschild time t");
+
 listarray(u);
 
 /* [wxMaxima: subsect start ]
@@ -488,7 +497,24 @@ on orbit theta = π/2.  Stable circular orbit is only r > 6*m.
 
 
 ("Hagihara coframe 4 velocity components in Schwarzschild coordinates
-on orbit theta = π/2.  Stable circular orbit is only r > 6*m.")$
+on orbit theta = π/2.  Stable circular orbit is only r > 6*m.
+c^2/gamma^2=    ")$
+
+lg[1,1];
+
+lg[4,4];
+
+c^4=-(u[1]^2*lg[1,1]+u[4]^2*lg[4,4]);
+
+%/(c^4*(r-2*m))/(r-3*m);
+
+factor(%);
+
+factor(%);
+
+((c^2/lg[1,1]*c^0=ev( c^2+ 'diff(φ,t)^2*lg[4,4]/lg[1,1]*c^0,theta=π/2)));
+
+factor(rootscontract (sqrt(part(solve(%,'diff(φ,t)^2),1))));
 
 u[4]:trigsimp(ev(u[4],rootscontract,theta=π/2));
 
@@ -505,11 +531,13 @@ ishow(ium)$
 cum:ic_convert(ium);
 
 /* [wxMaxima: subsect start ]
-Total frame 4 velocity squared  u^2 is -c^2=-1
+Total frame 4 velocity  E/m = c^2
    [wxMaxima: subsect end   ] */
 
 
-ev(cum,factor);
+("Total frame 4 velocity  E/m = c^2")$
+
+sqrt(-ev(cum,factor));
 
 ev(%,theta=π/2,factor);
 
@@ -604,7 +632,7 @@ float(sqrt(12));
 wxplot2d([func(1,3.35,1,1,r),func(1,sqrt(12),1,1,r),func(1,3.6,1,1,r),func(1,sqrt(12),1,1,6)],[r,3.5,10],[grid2d,true]);
 
 /* [wxMaxima: subsect start ]
-Components of 4 velocity squared is -c^2
+Components of 4 velocity is -c^2
    [wxMaxima: subsect end   ] */
 
 
@@ -612,15 +640,15 @@ Components of 4 velocity squared is -c^2
 
 listarray(u);
 
-ums2[1]:sqrt(u[1]*u[1]*-lg[1,1]);ums2[4]:trigsimp(subst([theta=π/2],sqrt(u[4]*u[4]*lg[4,4])));
+ums2[1]:(u[1]*u[1]*lg[1,1]);ums2[4]:trigsimp(subst([theta=π/2],(u[4]*u[4]*lg[4,4])));
 
-trigsimp(subst([theta=π/2],-ums2[1]^2+ums2[4]^2));
+sqrt(trigsimp(subst([theta=π/2],-(ums2[1]+ums2[4]))));
 
 omega1:ums2[4];
 
 ("Frame speed in orbit at r=6*m")$
 
-vv:ratsimp(ums2[4]/ums2[1])$
+vv:sqrt(-ratsimp(ums2[4]/ums2[1]))$
 ev(vv*c,r=6*m);
 
 vvm:rootscontract(subst([r=rm*m],vv));
@@ -869,7 +897,7 @@ Start with frame 4 velocity of a fixed observer in the frame.
 
 ("Start with frame 4 velocity of a fixed observer in the frame.")$
 
-uv1[1]:c$uv1[2]:0$uv1[3]:0$uv1[4]:0$
+uv1[1]:m*c^2/m$uv1[2]:0$uv1[3]:0$uv1[4]:0$
 
 listarray(uv1);
 
@@ -930,13 +958,14 @@ subst([m=rs/2],ps);
 
 ufvm:matrix([ufv[1],0,0,ufv[4]]);
 
-("Calculate magnitude of ufvm")$
+("Calculate magnitude of ufvm
+do double sum using matric multplication.")$
 
 ufvm.transpose(ufvm.lg);
 
 factor(%);
 
-subst([r=4*m,theta=π/2],%),trigexpand;
+sqrt(-subst([r=4*m,theta=π/2],%));
 
 /* [wxMaxima: subsect start ]
 Find the 4 acceleration in this frame using coordinate Christoffel symbols.
@@ -945,7 +974,7 @@ Find the 4 acceleration in this frame using coordinate Christoffel symbols.
 
 ("Find the 4 acceleration in this frame using coordinate Christoffel symbols.")$
 
-uf[1]:c$uf[2]:0$uf[3]:0$uf[4]:0$
+uf[1]:m*c^2/m$uf[2]:0$uf[3]:0$uf[4]:0$
 
 listarray(uf);
 
