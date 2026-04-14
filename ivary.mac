@@ -37,7 +37,9 @@ Test
 
 ishow('diff(foo,t([a])))$
 
-ishow(ev(%,diff))-result:0$
+ev(%,diff);
+
+ishow(%)-result:0$
 
 if %=0 then true else _error:_error +1;
 
@@ -50,7 +52,9 @@ Test
 
 ishow('diff(foo([i]),t([a])))$
 
-ishow(ev(%,diff))-result:0$
+ev(%,diff);
+
+ishow(%)-result:0$
 
 if %=0 then true else _error:_error +1;
 
@@ -93,13 +97,13 @@ ishow('diff(t([],[i]),t([a],[])))$  /*  stop diff to show the transform */
 
 ishow(ev(%,diff))$  /* result */
 
-remcomps(t);
-
-ishow(contract(%th(2)))$
+ishow(contract(%))$
 
 %-g([],[i,a]);
 
 if %=0 then true else _error:_error +1;
+
+remcomps(t);
 
 /* [wxMaxima: section start ]
 Test
@@ -723,20 +727,21 @@ Test
 
 ishow('diff(sqrt(abs(determinant(g))),g([a,b])))$
 
-root:rootscontract(sqrt(abs(determinant(g))));        /* get rid of the abs function */
+("get rid of the abs function")$
+
+root:rootscontract(sqrt(abs(determinant(g))));
 
 ("diff  the determinant squared root to the 4th")$
 
 rootdiff:ishow(rootscontract(diff(root,g([a,b]))))$
 
-/* [wxMaxima: hide output   ] */
-("replace the determinant squared and simplify")$
+("replace the determinant squared with XXX and simplify")$
 
-rootdiff:subst([determinant(g)^2=_xx],rootdiff);
+rootdiff:subst([determinant(g)^2=XXX],rootdiff);
 
-("restore the determinant^2")$
+("restore the XXX  = determinant^2")$
 
-ishow(subst([_xx=determinant(g)^2],rootdiff))$ /* result */
+ishow(subst([XXX=determinant(g)^2],rootdiff))$ /* result */
 
 %-(g([],[a,b])*sqrt(abs(determinant(g))))/2;  /* check */
 
@@ -750,7 +755,29 @@ Test
    [wxMaxima: section end   ] */
 
 
-("Test 22 variations of determinant of metric w.r.t the metric")$
+("Test 23 variations of sqrt(-determinant) of metric w.r.t the metric")$
+
+ishow('diff(sqrt(-(determinant(g))),g([],[a,b])))$
+
+rootdiff:ishow(diff(sqrt(-(determinant(g))),g([],[a,b])))$
+
+root:ishow(rootscontract(subst([determinant(g)=XXX^2],rootdiff)))$
+
+ishow((subst([XXX^2=determinant(g)],root)))$
+
+%-(-g([a,b],[])*sqrt(-(determinant(g))))/2;  /* check */
+
+if %=0 then true else _error:_error +1;
+
+kill(root,rootdiff);
+
+/* [wxMaxima: section start ]
+Take variations of the determinant of metric w.r.t the metric
+Test
+   [wxMaxima: section end   ] */
+
+
+("Test 24 variations of determinant of metric w.r.t the metric")$
 
 root:ishow('diff(determinant(g),g([a,b])))$
 
@@ -769,7 +796,7 @@ Test
    [wxMaxima: section end   ] */
 
 
-("Test 23")$
+("Test 25")$
 
 ishow('diff(determinant(g),g([],[a,b])))$
 
@@ -785,7 +812,7 @@ Test
    [wxMaxima: section end   ] */
 
 
-("Test 24 Variations of frame fields")$
+("Test 26 Variations of frame fields")$
 
 ishow('diff(ifr([b],[j]),ifr([a],[i])))$
 
@@ -801,7 +828,7 @@ need to define the variation because of invert
    [wxMaxima: section end   ] */
 
 
-("Test 25  Need to define variation because of one is the invert of the other")$
+("Test 27  Need to define variation because of one is the invert of the other")$
 
 depends(ifri,ifr);
 
@@ -823,7 +850,7 @@ Test
    [wxMaxima: section end   ] */
 
 
-("Test 26")$
+("Test 28")$
 
 ishow('diff(determinant(ifr),ifr([a],[i])))$
 
@@ -840,7 +867,7 @@ Test
    [wxMaxima: section end   ] */
 
 
-("Test 27")$
+("Test 29")$
 
 ishow('diff(determinant(ifri),ifr([a],[i])))$
 
@@ -860,7 +887,7 @@ Test
    [wxMaxima: section end   ] */
 
 
-("Test 28 Variations of expressions with derivatives")$
+("Test 30 Variations of expressions with derivatives")$
 
 ishow('diff(t([i],[]),t([a],[],p)))$
 
@@ -873,7 +900,7 @@ Test
    [wxMaxima: section end   ] */
 
 
-("Test 29")$
+("Test 31")$
 
 ishow('diff(t([i],[],q),t([a],[])))$
 
@@ -886,7 +913,7 @@ Test
    [wxMaxima: section end   ] */
 
 
-("Test 30")$
+("Test 32")$
 
 ishow('diff(t([i],[],q),t([a],[],p)))$
 
@@ -902,7 +929,7 @@ Needs to be all permutations
    [wxMaxima: section end   ] */
 
 
-("Test 31 Permutations again")$
+("Test 33 Permutations again")$
 
 ishow(('diff(t([i],[],r,s),t([a],[],p,q))+'diff(t([i],[],r,s),t([a],[],q,p)))/2)$
 
@@ -918,7 +945,7 @@ No permutations if false
    [wxMaxima: section end   ] */
 
 
-("Test 32")$
+("Test 34")$
 
 ishow(('diff(t([i],[],r,s),t([a],[],p,q))+0*'diff(t([i],[],r,s),t([a],[],q,p)))/1)$
 
@@ -934,7 +961,7 @@ No permutations if false
    [wxMaxima: section end   ] */
 
 
-("Test 33")$
+("Test 35")$
 
 ishow('diff(t([i],[],q)*a([],[i]),t([a],[])))$
 
@@ -949,8 +976,9 @@ The variation_deriv_degree:1 is the Euler-Lagrange Equation.
    [wxMaxima: section end   ] */
 
 
-("Test 34 Macsyma flag variation_deriv_degree:1 defines use Euler-Lagrange Equation
-First term is the same but second term is minus coordinate derivative of tensor and the coordinate")$
+("Test 36 Macsyma flag variation_deriv_degree:1 defines use Euler-Lagrange Equation
+First term is the same but second term is minus 
+    coordinate derivative of derivative of tensor by first derivative of the coordinate")$
 
 coord(c);
 
@@ -972,7 +1000,7 @@ First define the result.
    [wxMaxima: section end   ] */
 
 
-("Test 35 Euler-Lagrange")$
+("Test 37 Euler-Lagrange")$
 
 coord(x);
 
@@ -992,7 +1020,7 @@ Here is the Euler-Lagrange equation
 ishow('diff(t([i],[],q)*t([],[i],p)*g([],[p,q]),t([a],[]))-'idiff('diff(t([i],[],q)*t([],[i],p)*g([],[p,q]),t([a],[],x)),x))$
 
 /* [wxMaxima: subsect start ]
-Load components for t(_p^i) so it can do the derivative
+Load components for t(^i,p) so it can do the derivative
 Save it as a derivative rule
 Find out the derivative of g(^i%1)*t(_%1,p) to g(^i%1)*kdelta(_%1^a)*kdelta(_p^m)
    [wxMaxima: subsect end   ] */
@@ -1004,7 +1032,7 @@ components(t([],[i],p),g([],[i,j])*t([j],[],p));
 
 ishow(rename(t([],[i],p)))$
 
-ishow(contract(rename(diff(%,t([a],[],m)))))$  /* use for the derivative rule below */
+ishow('diff('t([],[i],p),t([a],[]))=contract(rename(diff(%,t([a],[],m)))))$  /* use for the derivative rule below */
 
 remcomps(t);
 
@@ -1057,7 +1085,7 @@ Test
 
 coord(x);
 
-("Test 36  This takes some fudging to get the answer")$
+("Test 38  This takes some fudging to get the answer")$
 
 ishow('idiff(t([j],[i]),x([],[k])))$  /* the tensor needs to be replaced with the k as coordinate */
 
@@ -1076,7 +1104,7 @@ Test
    [wxMaxima: section end   ] */
 
 
-("Test 37")$
+("Test 39")$
 
 ishow('diff(t([j],[i]),x([k])))$
 
@@ -1102,7 +1130,7 @@ Test
    [wxMaxima: section end   ] */
 
 
-("Test 38")$
+("Test 40")$
 
 ishow('diff(tt([i]),tt([a])))$
 
@@ -1117,7 +1145,7 @@ Test
    [wxMaxima: section end   ] */
 
 
-("Test 39")$
+("Test 41")$
 
 ishow('diff(baz*tt([i],[])*ss([j],[]),tt([a],[])))$
 
@@ -1132,7 +1160,7 @@ Test
    [wxMaxima: section end   ] */
 
 
-("Test 40")$
+("Test 42")$
 
 ishow('diff(tt([i],[k]),tt([a],[b])))$
 
@@ -1147,7 +1175,7 @@ Test
    [wxMaxima: section end   ] */
 
 
-("Test 41")$
+("Test 43")$
 
 ishow('diff(tt([i],[])*ss([j],[i]),tt([a])))$
 
