@@ -1890,9 +1890,8 @@ petrov():=block
 frame_bracket(fr,fri,diagframe):=block
 (
   for a thru dim do for b thru dim do for c thru dim do
-    fb[a,b,c]:trigsimp(sum(sum( 
-	         (diff(fri[c,e%],ct_coords[f%])-diff(fri[c,f%],ct_coords[e%]))*
-			 fr[a,e%]*fr[b,f%],e%,1,dim),f%,1,dim))
+    fb[a,b,c]:sum(sum((diff(fri[a,e%],ct_coords[f%])-diff(fri[a,f%],ct_coords[e%]))*
+			 fr[b,e%]*fr[c,f%],e%,1,dim),f%,1,dim)	 
 );
 
 /* The findde function finds a list of unique differential equations in the
@@ -2109,4 +2108,4 @@ riccicov(ii,jj,kk,ll):=block(
 
 
 
-put('ctensor,'V20260106,'version)$
+put('ctensor,'V20260406,'version)$
