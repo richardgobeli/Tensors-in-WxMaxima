@@ -1,0 +1,31 @@
+("This is from")$
+ ("Field theory with the Maxima computer algebra system
+Viktor T. Toth1
+1Ottawa, Ontario K1N 9H5, Canada
+(Dated: August 22, 2023)
+")$
+load(itensor);
+imetric(g);
+igeowedge_flag:true;
+("Show the componets of F")$
+components(F([m,n],[]),extdiff(A([m],[]),n));
+ishow(F([m,n],[]))$
+extdiff(F([m,n],[]),k);
+("Show the Lagrangian Density")$
+L:ishow(-1/4*'F([k,l])*'F([a,b],[])*g([],[k,a])*g([],[l,b])
++j([k],[])*A([l],[])*g([],[k,l]))$
+("Show Lagrangian Density after showing components of F")$
+L:ishow(ev(L,F))$
+remcomps(F);
+decsym(F,0,2,[],[anti(all)]);
+dispsym(F,0,2);
+matchdeclare(a,atom,b,atom)$
+apply(defrule,[Maxwell,extdiff(A([a],[]),b),F([a,b],[])]);
+defrule(CC,'covdiff('covdiff(F([],[a,b]),b),a),0);
+ishow(diff(L,A([m],[],n)))$
+L1:ishow(canform(contract(expand(apply1(%,Maxwell)))))$
+("show the Euler-Lagrangian Equations the second term is negative")$
+EL:ishow(contract(diff(L,A([m],[])))+'covdiff(-L1,n)=0)$
+("Next Derivative show that the J_μ is conserved")$
+ishow(apply1(map(lambda([x],'covdiff(x,m)),lhs(EL)),CC) = covdiff(rhs(EL),m))$
+
