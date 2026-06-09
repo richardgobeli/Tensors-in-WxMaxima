@@ -1,0 +1,107 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 26.05.0-DevelopmentSnapshot ] */
+/* [wxMaxima: input   start ] */
+("This is from")$
+ ("Field theory with the Maxima computer algebra system
+Viktor T. Toth
+1Ottawa, Ontario K1N 9H5, Canada
+(Dated: August 22, 2023)
+")$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(itensor);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+imetric(g);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+igeowedge_flag:true;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+("Show the componets of F")$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+components(F([m,n],[]),extdiff(A([m],[]),n));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(F([m,n],[]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+extdiff(F([m,n],[]),k);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+("Show the Lagrangian Density")$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+L:ishow(-1/4*'F([k,l])*'F([a,b],[])*g([],[k,a])*g([],[l,b])
++j([k],[])*A([l],[])*g([],[k,l]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+("Show Lagrangian Density after showing components of F")$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+L:ishow(ev(L,F))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+remcomps(F);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+decsym(F,0,2,[],[anti(all)]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dispsym(F,0,2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+matchdeclare(a,atom,b,atom)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+apply(defrule,[Maxwell,extdiff(A([a],[]),b),F([a,b],[])]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+defrule(CC,'covdiff('covdiff(F([],[a,b]),b),a),0);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(diff(L,A([m],[],n)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+L1:ishow(canform(contract(expand(apply1(%,Maxwell)))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+("show the Euler-Lagrangian Equations the second term is negative")$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+EL:ishow(contract(diff(L,A([m],[])))+'covdiff(-L1,n)=0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+("Next Derivative show that the J_μ is conserved")$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(apply1(map(lambda([x],'covdiff(x,m)),lhs(EL)),CC) = covdiff(rhs(EL),m))$
+/* [wxMaxima: input   end   ] */
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 26.05.0-DevelopmentSnapshot"$
