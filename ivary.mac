@@ -147,7 +147,7 @@ ishow('diff(t([i,-j],[]),t([a,-b],[])))$
 ishow(ev(%,diff))$
 
 /* [wxMaxima: subsect start ]
-ishow does not know how to handle a covariant index write as a minus contravariant index.
+ishow does not know how to handle a covariant index written as a minus contravariant index.
    [wxMaxima: subsect end   ] */
 
 
