@@ -78,17 +78,17 @@ listarray(ufv);
 ("Energy of test particle at rest in frame.
 It is also stationary in Schwarzschild coordinates.")$
 /* [wxMaxima: subsect start ]
-Energy m1*c^2 at rest in Schwarzschild coordinates. 
+Energy m1*c^2 = c*p_1 = m1*c*v_1 at rest in Schwarzschild coordinates. 
    [wxMaxima: subsect end   ] */
-("Energy m1*c^2 at rest in Schwarzschild coordinates.")$
-kill(E1,E2,EnergySquaredPerMass)$
-E1:ishow(EnergySquaredPerMass([],[])=(-ufv1([],[i])*ufv1([],[j])*lgg([i,j],[])))$
+("Energy m1*c^2 = c*p_1 = m1*c*v_1 at rest in Schwarzschild coordinates.")$
+kill(E1,E2,EnergySquared)$
+E1:ishow(EnergySquared([],[])=(-m1*c*ufv1([],[i])*m1*c*ufv1([],[j])*lgg([i,j],[])))$
 E2:ic_convert(E1);
 /* [wxMaxima: subsect start ]
 So m1*c*sqrt(lg*(dt/dτ)^2) = Rest Energy only if stationary
    [wxMaxima: subsect end   ] */
 ("So m1*c*sqrt(lg*(dt/dτ)^2) = Rest Energy only if stationary")$
-m1*c*'diff(t,τ)=m1*sqrt(ev(E2,ufv1:ufv,lgg:lg));
+m1*c^2*'diff(t,τ)=sqrt(ev(E2,ufv1:ufv,lgg:lg));
 /* [wxMaxima: subsect start ]
 Find the 4 acceleration in the frame.
    [wxMaxima: subsect end   ] */
@@ -301,7 +301,7 @@ c^2*u[4]^2*lg[4,4];
 Magnitude of line element is invariant
    [wxMaxima: subsect end   ] */
 ("Magnitude of line element is invariant")$
-c^4=-((c*u[1])^2*lg[1,1]+(c*u[4])^2*lg[4,4]);
+sqrt(c^2)=sqrt(-((u[1])^2*lg[1,1]+(u[4])^2*lg[4,4]));
 factor(%);
 listarray(u);
 kill(um);
