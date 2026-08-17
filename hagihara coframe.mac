@@ -423,13 +423,15 @@ for planet in orbit
    [wxMaxima: section end   ] */
 ("Get components of the Mass Lagrangian for planet in orbit")$
 listarray(u);
+ishow(T([],[μ,ν])=contract('diff(sqrt(-determinant(g))*LM,g([μ,ν],[])) +idiff('diff(sqrt(-determinant(g))*LM,g([μ,ν],[],mm)),mm))
+    *2/sqrt(-determinant(g)))$
 LM:ishow(Lm([],[])=m1*c*u([],[μ])*m1*c*u([],[ν])*g([μ,ν],[]))$
 LM1:ic_convert(LM);
 lmm:ev(LM1);
 lmm:sqrt(ratsimp(-ev(lmm,theta=%pi/2)));
 LM1:ishow(lhs(LM)=rhs(LM)*sqrt(-determinant(g)))$
-LM2:ishow(contract(2*diff(rhs(LM1),g([μ,ν],[])) +2*idiff(diff(rhs(LM1),g([μ,ν],[],mm)),mm)))$
-ishow(factor(LM2/sqrt(-determinant(g))))$
+LM2:ishow(contract(diff(rhs(LM1),g([μ,ν],[])) +idiff(diff(rhs(LM1),g([μ,ν],[],mm)),mm)))$
+ishow(factor(LM2*2/sqrt(-determinant(g))))$
 kill(T);
 /* [wxMaxima: subsect start ]
 See the Energy-Momentum Tensor
@@ -437,9 +439,10 @@ See the Energy-Momentum Tensor
 ("See the Energy-Momentum Tensor")$
 LMG:ishow(rhs(LM)*sqrt(-determinant(g)))$
 ishow('contract(radcan(2/sqrt(-determinant(g))*(diff(LMG,g([μ,ν],[])) -idiff(diff(LMG,g([μ,ν],[],mm)),mm)))))$
-emt:ishow(T([],[μ,ν])=2*(diff(rhs(LM),g([μ,ν],[])))+rhs(LM)*g([],[μ,ν]))$
+ishow(ev(%,contract))$
+emt:ishow(T([],[μ,ν])=2*('diff(lm,g([μ,ν],[])))+lm*g([],[μ,ν]))$
+emt:ishow(T([],[μ,ν])=2*(diff(rhs(LM),g([μ,ν],[])))+contract(rhs(LM)*g([],[μ,ν])))$
 emt:ishow(contract(emt))$
-emt:ishow(subst([g([],[μ,ν])*u([],[μ])*u([],[ν])*m1*g([μ,ν],[])=0],emt))$
 tt:ic_convert(emt);
 ev(tt);
 cdisplay(T);
