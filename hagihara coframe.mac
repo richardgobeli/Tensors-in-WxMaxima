@@ -112,11 +112,11 @@ listarray(ua);
 /* [wxMaxima: subsect start ]
 Frame metric is lfg gives magnitude of acceleration in time tau.
    [wxMaxima: subsect end   ] */
-ua2:'diff(r,τ,2)=if sign(ua[2])=neg then -sqrt(ua[2]*ua[2]*lfg[2,2]) else sqrt(ua[2]*ua[2]*lfg[2,2]);
+ua2:'diff(r,τ,2)=if sign(ua[2])=neg then -sqrt(m1^2*c^2*ua[2]*ua[2]*lfg[2,2])/m1 else sqrt(m1^2*c^2*ua[2]*ua[2]*lfg[2,2])/m1;
 /* [wxMaxima: subsect start ]
 Schwarzschild metric is lg gives magnitude of acceleration in time t.
    [wxMaxima: subsect end   ] */
-ua2:'diff(r,t,2)=if sign(ua[2])=neg then -sqrt(ua[2]*ua[2]*lg[2,2]) else sqrt(ua[2]*ua[2]*lg[2,2]);
+ua2:'diff(r,t,2)=if sign(ua[2])=neg then -sqrt(m1^2*c^2*ua[2]*ua[2]*lg[2,2])/m1 else sqrt(m1^2*c^2*ua[2]*ua[2]*lg[2,2])/m1;
 /* [wxMaxima: section start ]
 Find a coframe that is free falling and in a circular 
 orbit, which is the Hagihara observers.
