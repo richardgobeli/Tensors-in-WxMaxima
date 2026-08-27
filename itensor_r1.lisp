@@ -25,7 +25,7 @@
 (macsyma-module itensor) ;; added 9/24/82 at UCB
 
 (cond (($get '$itensor '$version) (merror "ITENSOR already loaded"))
-      (t ($put '$itensor '$v20260825 '$version)))
+      (t ($put '$itensor '$v20260827 '$version)))
 
 ;    Various functions in Itensor have been parceled out to separate files. A
 ;    function in one of these files will only be loaded in (automatically) if
@@ -1495,7 +1495,8 @@
 ;; tokens are handled specially.
 (defun ishow-splice-tokens (l)
   (cond ((null (cdr l)) (ishow-token-chars (car l)))
-        (t (nconc (ishow-token-chars (car l)) (cons '| | (ishow-splice-tokens (cdr l)))))))
+        (t (nconc (ishow-token-chars (car l))
+                  (cons '| | (ishow-splice-tokens (cdr l)))))))
 
 (defmfun $ishow (f)
        (progn (makelabel $linechar)
@@ -1536,14 +1537,18 @@
     (setq sub-tokens (nreverse sub-tokens))
     (setq super-tokens (nreverse super-tokens))
     (let* ((covatom (and sub-tokens (ishow-splice-tokens sub-tokens)))
-           (superatom (and super-tokens (maknam (cons '$ (ishow-splice-tokens super-tokens)))))
+           (superatom
+            (and super-tokens
+                 (maknam (cons '$ (ishow-splice-tokens super-tokens)))))
            ;; Derivative indices get a ',' -- the ordinary partial-derivative
            ;; marker -- appended to the same subscript atom.
-           (subatom (cond ((and covatom deriv)
-                            (maknam (cons '$ (append covatom (cons '|,| (splice1 deriv))))))
-                           (covatom (maknam (cons '$ covatom)))
-                           (deriv (maknam (cons '$ (cons '|,| (splice1 deriv)))))
-                           (t nil)))
+           (subatom
+            (cond ((and covatom deriv)
+                   (maknam (cons '$ (append covatom
+                                             (cons '|,| (splice1 deriv))))))
+                  (covatom (maknam (cons '$ covatom)))
+                  (deriv (maknam (cons '$ (cons '|,| (splice1 deriv)))))
+                  (t nil)))
            (base (cond (subatom (cons (list name 'simp 'array) (ncons subatom)))
                        (t name))))
       (cond (superatom (list '(mexpt simp) base superatom))
