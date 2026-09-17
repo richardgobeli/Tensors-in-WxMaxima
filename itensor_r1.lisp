@@ -25,7 +25,7 @@
 (macsyma-module itensor) ;; added 9/24/82 at UCB
 
 (cond (($get '$itensor '$version) (merror "ITENSOR already loaded"))
-      (t ($put '$itensor '$v20260827 '$version)))
+      (t ($put '$itensor '$v20260916 '$version)))
 
 ;    Various functions in Itensor have been parceled out to separate files. A
 ;    function in one of these files will only be loaded in (automatically) if
@@ -116,8 +116,8 @@
 )
 
 
-(defun covi (rp) (append (plusi (cdadr rp)) (minusi (cdaddr rp))))
-(defun conti (rp) (append (minusi (cdadr rp)) (plusi (cdaddr rp))))
+(defun covi (rp) (plusi (cdadr rp)))
+(defun conti (rp) (append (minusi (cdadr rp)) (cdaddr rp)))
 (defun deri (rp) (cdddr rp))
 (defun name (rp) (caar rp))
 (defmfun $covi (rp) (cond ((rpobj rp) (cons smlist (covi rp)))
@@ -1470,6 +1470,8 @@
 ;atom (covariant indices), a superscript atom (contravariant indices), and
 ;a derivative atom, each built locally from the object's own index lists.
 
+;True if IDX is really an index of the OTHER kind, embedded via the
+;abnormal (mtimes -1 ...) notation.
 (defun ishow-negated-index (idx)
   (and (not (atom idx)) (isprod (car idx)) (eql (cadr idx) -1)))
 
@@ -1478,26 +1480,42 @@
 ;; land in the wrong column.
 (defvar ishow-blank-marker (make-symbol "ISHOW-BLANK"))
 
+;The display width of IDX: one less than the symbol's printname length,
+;the number of digits for a number, SPLICE2's length for a compound
+;index, or 1 otherwise.
 (defun ishow-index-width (idx)
   (cond ((symbolp idx) (max 1 (1- (length (symbol-name idx)))))
         ((numberp idx) (length (format nil "~a" idx)))
         ((not (atom idx)) (length (splice2 idx)))
         (t 1)))
 
+;A blank token standing in for IDX: (ISHOW-BLANK-MARKER . WIDTH).
 (defun ishow-blank (idx) (cons ishow-blank-marker (ishow-index-width idx)))
 
+;True if TOK is a blank token rather than a real index.
+(defun ishow-blank-token-p (tok)
+  (and (consp tok) (eq (car tok) ishow-blank-marker)))
+
+;The display characters for TOK: WIDTH space symbols for a blank token,
+;or SPLICE2 of the index itself.
 (defun ishow-token-chars (tok)
-  (cond ((and (consp tok) (eq (car tok) ishow-blank-marker))
+  (cond ((ishow-blank-token-p tok)
          (let ((r nil)) (dotimes (i (cdr tok)) (push '| | r)) (nreverse r)))
         (t (splice2 tok))))
 
 ;; Like SPLICE1, but routes each token through ISHOW-TOKEN-CHARS so blank
-;; tokens are handled specially.
+;; tokens are handled specially, and only separates two tokens of the same
+;; kind (both real or both blank) -- a transition between a real index and
+;; its opposite-row blank needs no separator on top of the blank's own
+;; width.
 (defun ishow-splice-tokens (l)
   (cond ((null (cdr l)) (ishow-token-chars (car l)))
-        (t (nconc (ishow-token-chars (car l))
-                  (cons '| | (ishow-splice-tokens (cdr l)))))))
+        ((eq (ishow-blank-token-p (car l)) (ishow-blank-token-p (cadr l)))
+         (nconc (ishow-token-chars (car l))
+                (cons '| | (ishow-splice-tokens (cdr l)))))
+        (t (nconc (ishow-token-chars (car l)) (ishow-splice-tokens (cdr l))))))
 
+;Displays F, labeling it with the next line number.
 (defmfun $ishow (f)
        (progn (makelabel $linechar)
               (cond ($dispflag
@@ -1506,6 +1524,8 @@
 ))
               (set *linelabel* f)))
 
+;Rebuilds F for display, replacing every RPOBJ subexpression with its
+;ISHOW-CLASSIC form.
 (defun ishow (f)
   (cond
     ((atom f) f)
@@ -1514,8 +1534,11 @@
 
 ;; Walks the raw covariant and contravariant lists (either may contain
 ;; embedded, negatively-marked "really the other kind" entries) and builds
-;; two parallel token sequences, one per row, with a blank left in the
-;; other row at every position so the two rows never stack.
+;; two parallel token lists, SUB-TOKENS and SUPER-TOKENS -- one entry per
+;; index position, in order. Each entry is either a real index (as it
+;; appears in F's own lists) or a blank token (from ISHOW-BLANK) standing
+;; in for whatever occupies that position on the OTHER row, so the two
+;; rows never stack.
 (defun ishow-classic (f)
   (let* ((name (caar f))
          (cov-raw (cdadr f))
@@ -1626,6 +1649,14 @@
     )
   )
 )
+
+;Helpers with new index notation
+;; -j is represented as ((MTIMES [SIMP]) -1 $J)
+(defun sdiff-negindexp (i)
+  (and (consp i) (eq (caar i) 'mtimes) (eql (cadr i) -1)
+       (consp (cddr i)) (null (cdddr i))))
+
+(defun sdiff-negindex-base (i) (caddr i))
 
 ;Redefined so that the derivative of any indexed object appends on the
 ;coordinate index in sorted order unless the indexed object was declared
@@ -2100,25 +2131,41 @@
              )
             )
 
-
             ((and
                (eq (caar e) (caar x))
                (eql (length (cdadr e)) (length (cdadr x)))
                (eql (length (cdaddr e)) (length (cdaddr x)))
                (eql (length (cdddr e)) (length (cdddr x)))
+               ;; New: signs in the covariant lists must agree slot by slot
+               (every #'(lambda (u v)
+                          (eq (null (sdiff-negindexp u))
+                              (null (sdiff-negindexp v))))
+                      (cdadr e) (cdadr x))
              )
              (cons '(mtimes)
               (cons 1
                (append
                  (mapcar
                    #'(lambda (x y)
-                       (list
-                         '(%kdelta simp)
-                         (list '(mlist simp) x)
-                         (list '(mlist simp) y)
+                       (cond
+                         ((sdiff-negindexp x)
+                          ;; -j in e, -b in x: dT^j/dT^b = kdelta([b],[j])
+                          (list
+                            '(%kdelta simp)
+                            (list '(mlist simp) (sdiff-negindex-base y))
+                            (list '(mlist simp) (sdiff-negindex-base x))
+                          ))
+                         (t
+                          (list
+                            '(%kdelta simp)
+                            (list '(mlist simp) x)
+                            (list '(mlist simp) y)
+                          ))
                        )
                      ) (cdadr e) (cdadr x)
                  )
+
+
                  (mapcar
                    #'(lambda (x y)
                        (list
