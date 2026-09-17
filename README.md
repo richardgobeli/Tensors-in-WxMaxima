@@ -10,4 +10,4 @@ The wxm files are used in WxMaxima.
 It also has generated the Stress-Energy Tensor for the Hagihara orditing object.
 The wxm form of the file has questions in the file that causes command line maxima to abort.
 - The Lagraingian Density of The Electromagnetic Field.mac is from Viktor T. Toth.
-- Modified itensor.lisp to have the ishow give a better index display with staggered indices from top to bottom.
+- Modified itensor_r1.lisp to have the ishow give a better index display with staggered indices from top to bottom.
