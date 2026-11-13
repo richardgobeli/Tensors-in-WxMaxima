@@ -462,7 +462,7 @@ ishow('diff(sqrt(abs(determinant(g))),g([a,b])))$
 ("get rid of the abs function")$
 root:rootscontract(sqrt(abs(determinant(g))));
 ("diff  the determinant root to the 4th")$
-rootdiff:ishow(rootscontract(diff(root,g([a,b]))))$
+rootdiff:ishow((rootscontract(diff(root,g([a,b])))))$
 ("replace the determinant squared with XXX and simplify")$
 rootdiff:subst([determinant(g)^2=XXX],rootdiff);
 ("restore the XXX  = determinant^2")$
@@ -477,8 +477,7 @@ Test
 ("Test 23 variations of sqrt(-determinant) of metric w.r.t the metric")$
 ishow('diff(sqrt(-(determinant(g))),g([],[a,b])))$
 rootdiff:ishow(diff(sqrt(-(determinant(g))),g([],[a,b])))$
-root:ishow(rootscontract(subst([determinant(g)=XXX^2],rootdiff)))$
-ishow((subst([XXX^2=determinant(g)],root)))$
+ishow(rootscontract(%i*factor(rootscontract(1/%i *%))))$
 %-(-g([a,b],[])*sqrt(-(determinant(g))))/2;  /* check */
 if %=0 then true else _error:_error +1;
 kill(root,rootdiff);
@@ -489,7 +488,7 @@ Test
 ("Test 24 variations of determinant of metric w.r.t the metric")$
 root:ishow('diff(determinant(g),g([a,b])))$
 ("diff  the determinant")$
-ishow(ev(root,diff))$
+ishow(diff(determinant(g),g([a,b])))$
 rat(%-(determinant(g)*g([],[a,b])));  /* check */
 if %=0 then true else _error:_error +1;
 kill(root);
@@ -498,7 +497,7 @@ Test
    [wxMaxima: section end   ] */
 ("Test 25")$
 ishow('diff(determinant(g),g([],[a,b])))$
-ishow(ev(%,diff))$
+ishow(diff(determinant(g),g([],[a,b])))$
 ratsimp(%-(-determinant(g)*g([a,b],[])));
 if %=0 then true else _error:_error +1;
 /* [wxMaxima: section start ]
@@ -512,15 +511,24 @@ ishow(ev(%,diff))$
 if %=0 then true else _error:_error +1;
 /* [wxMaxima: section start ]
 Test
-need to define the variation because of invert
+need to define the invert
    [wxMaxima: section end   ] */
 ("Test 27  Need to define variation because of one is the invert of the other")$
 depends(ifri,ifr);
+defcon(ifg);
+dispcon(ifg,ifr);
 ishow('diff(ifri([j],[b]),ifr([a],[i])))$
-matchdeclare([_a,_b,_i,_j],atom);
-tellsimpafter('diff(ifri([_j],[_b]),ifr([_a],[_i])),-ifri([_i],[_b])*ifri([_j],[_a]));
-ishow('diff('ifri([j],[b]),ifr([a],[i])))$
-ishow(diff(ifri([j],[b]),ifr([a],[i])))$
+("show invert of ifri")$
+eq0:ishow((ifri([j],[b])*ifr([b],[k])=ifg([j],[k])))$
+eq1:ishow(contract(diff(eq0,ifr([a],[i]))))$
+eq2:ishow(contract(expand(ifri([k],[c])*eq1)))$
+eq3:ishow(part(contract(solve(eq2,'diff(ifri([j],[b]),ifr([a],[i])))),1))$
+("invert ifg")$
+ishow(ifg([b],[c])*transpose(ifr([b],[c]))=ifg([b],[b]))$
+("therfore the invert of ifg is the transpose.")$
+eq4:ishow(ifg([b],[c])=1/ifg([c],[b]))$
+eq5:ishow(contract(subst([eq4],eq3)))$
+ishow(rhs(eq5))$;
 %-(-ifri([i],[b])*ifri([j],[a]));
 if %=0 then true else _error:_error +1;
 /* [wxMaxima: section start ]
@@ -529,8 +537,9 @@ Test
 ("Test 28")$
 ishow('diff(determinant(ifr),ifr([a],[i])))$
 tellsimpafter('diff(determinant(ifr),ifr([a],[i])),ifri([i],[a])*determinant(ifr));
-ishow(diff(determinant(ifr),ifr([a],[i])))$
-%-ifri([i],[a])*determinant(ifr);
+res:ishow(diff(determinant(ifr),ifr([a],[i]))=transpose(ifr_cofactor([a],[i])))$
+ishow(rhs(res)=ifr_adjoint([i],[a]))$
+lhs(res)-ifri([i],[a])*determinant(ifr);
 if %=0 then true else _error:_error +1;
 /* [wxMaxima: section start ]
 Test
@@ -538,7 +547,6 @@ Test
 ("Test 29")$
 ishow('diff(determinant(ifri),ifr([a],[i])))$
 tellsimpafter('diff(determinant(ifri),ifr([a],[i])),-ifri([i],[a])*determinant(ifri));
-disprule(derivativerule3);
 ishow(diff(determinant(ifri),ifr([a],[i])))$
 %-(-ifri([i],[a])*determinant(ifri));
 if %=0 then true else _error:_error +1;
@@ -640,7 +648,7 @@ Make a rule to replace the two derivatives
 matchdeclare([_i,_p,_a,_m,_q],atom);
 tellsimpafter('diff(t([],[i],p),t([a],[],m)),g([],[i,a])*kdelta([p],[m]));
 tellsimpafter('diff(t([],[i],p)*g([],[p,q])*t([i],[],q),t([a],[])),0);
-disprule(derivativerule4,derivativerule5)$
+disprule(derivativerule3,derivativerule4)$
 /* [wxMaxima: subsect start ]
 Test derivative
    [wxMaxima: subsect end   ] */
@@ -745,6 +753,6 @@ remcomps(s);
 dispsym(g,2,0);
 dispsym(g,0,2);
 _error;
-version:"23-Oct-2026";
-("version 23-Oct-2026")$
+version:"12-Nov-2026";
+("version 12-Nov-2026")$
 
